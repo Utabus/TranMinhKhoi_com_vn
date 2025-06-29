@@ -1,0 +1,224 @@
+/*
+ * jQuery Nivo Slider v3.2
+ * http://nivo.dev7studios.com
+ *
+ * Copyright 2012, Dev7studios
+ * Free to use and abuse under the MIT license.
+ * http://www.opensource.org/licenses/mit-license.php
+ */
+
+/* The Nivo Slider styles */
+
+.HomepageSlider {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  vertical-align: top;
+}
+.nivoSlider {
+  position: relative;
+  width: 100%;
+  min-height: inherit;
+  overflow: hidden;
+}
+.nivoSlider img {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  max-width: none;
+}
+.nivo-main-image {
+  display: block !important;
+  position: relative !important;
+  width: 100% !important;
+}
+
+/* If an image is wrapped in a link */
+.nivoSlider a.nivo-imageLink {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  z-index: 6;
+  display: none;
+  background: white;
+  filter: alpha(opacity=0);
+  opacity: 0;
+}
+/* The slices and boxes in the Slider */
+.nivo-slice {
+  display: block;
+  position: absolute;
+  z-index: 5;
+  height: 100%;
+  top: 0;
+}
+.nivo-box {
+  display: block;
+  position: absolute;
+  z-index: 5;
+  overflow: hidden;
+}
+.nivo-box img {
+  display: block;
+}
+
+/* Caption styles */
+.nivo-html-caption {
+  display: none;
+}
+/* Direction nav styles (e.g. Next & Prev) */
+.nivo-directionNav {
+  position: absolute;
+  width: 1170px;
+  top: auto;
+  transform: translateY(-50%);
+  text-align: left;
+  margin: 0 auto;
+  z-index: 9;
+  transition: all 300ms ease-out 0s;
+  -webkit-transition: all 300ms ease-out 0s;
+  -moz-transition: all 300ms ease-out 0s;
+  -ms-transition: all 300ms ease-out 0s;
+  -o-transition: all 300ms ease-out 0s;
+  display: inline-block;
+  height: 36px;
+  margin: 0 auto;
+  float: none;
+  left: 0;
+  right: 0;
+  bottom: 0px;
+}
+.nivo-directionNav a {
+  position: absolute;
+  z-index: 9;
+  cursor: pointer;
+  color: #e5ba22;
+  background-color: #fff;
+}
+.nivo-directionNav a:hover {
+  color: #ffffff;
+}
+a.nivo-prevNav {
+}
+a.nivo-nextNav {
+  left: 56px;
+  right: auto;
+}
+
+a.nivo-nextNav:before,
+a.nivo-prevNav:before {
+  font-family: "Font Awesome 5 Solid";
+  position: relative;
+  font-size: 17px;
+  text-align: center;
+}
+a.nivo-nextNav:before {
+  content: "\f061";
+}
+a.nivo-prevNav:before {
+  content: "\f060";
+}
+
+/* Control nav styles (e.g. 1,2,3...) */
+.nivo-controlNav {
+  max-width: 1170px;
+  right: 0;
+  left: 0;
+  padding: 0;
+  position: absolute;
+  width: 100%;
+  bottom: 10%;
+  text-align: center;
+  margin: 0 auto;
+  z-index: 9;
+}
+.nivo-controlNav a {
+  cursor: pointer;
+  border: 0 none;
+  display: inline-block;
+  height: 10px;
+  margin: 0 3px;
+  text-indent: -9999px;
+  width: 10px;
+  border-radius: 100%;
+  background-color: #fff;
+}
+.nivo-controlNav a.active {
+  font-weight: bold;
+}
+.nivo-directionNav a {
+  font-size: 0;
+  border: 0 none;
+  display: block;
+  height: 55px;
+  transition: all 200ms ease-in-out 0s;
+  width: 55px;
+  line-height: 55px;
+  text-align: center;
+  border-radius: 0px;
+}
+/* Caption styles */
+.nivo-caption {
+  color: #fff;
+  z-index: 8;
+  width: 55%;
+  text-align: center;
+  float: none;
+  margin: 0 auto;
+}
+.slidecaption-wp {
+  max-width: 1170px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 9;
+}
+
+.nivo-caption h2 {
+  font-size: 55px;
+  line-height: 1.3;
+  color: #fff;
+  font-weight: 500;
+  margin: 0 0 40px 0;
+  position: relative;
+}
+
+.nivo-caption p {
+  margin: 0 0 25px 0;
+  color: #fff;
+  line-height: 1.7;
+  font-weight: 400;
+  margin: 0 auto 40px;
+}
+.nivo-caption .slidermorebtn {
+  padding: 12px 35px;
+  display: inline-block;
+  background-color: #1a6fe1;
+  color: #000;
+  font-size: 17px;
+  font-weight: 600;
+  border-radius: 0px;
+}
+.nivo-caption .slidermorebtn:hover {
+  color: #fff;
+  background: #000;
+}
+.nivo-caption h5 {
+  font-size: 16px;
+  line-height: 24px;
+  background-color: #ad6004;
+  color: #fff;
+  font-weight: 400;
+  margin: 0 0 25px 0;
+  padding: 5px 20px;
+  position: relative;
+  display: inline-block;
+}
