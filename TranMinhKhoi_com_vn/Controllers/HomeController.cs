@@ -17,6 +17,30 @@ namespace TranMinhKhoi_com_vn.Controllers
         {
             return View();
         }
+        public IActionResult Profile()
+        {
+            return View();
+        }
+        public IActionResult Social()
+        {
+            return View();
+        }
+        public IActionResult Politics()
+        {
+            return View();
+        }
+        public IActionResult Competion()
+        {
+            return View();
+        }
+        public IActionResult Fund()
+        {
+            return View();
+        }
+        public IActionResult StudentLife()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {

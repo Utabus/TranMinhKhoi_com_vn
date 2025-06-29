@@ -309,6 +309,41 @@ jQuery(document).ready(function() {
     <div id="SiteWrapper">
 
 			 @await Html.PartialAsync("~/Views/PartialView/_Header.cshtml")
+
+		<div class="HomepageSlider">
+			<div id="slider" class="nivoSlider">
+				<img src="~/user/wp-content/themes/home-styling-interior-pro/images/slides/slider-default1.jpg" alt="" title="#slidecaption1">
+				<img src="~/user/wp-content/themes/home-styling-interior-pro/images/slides/slider-default2.jpg" alt="" title="#slidecaption2">
+				<img src="~/user/wp-content/themes/home-styling-interior-pro/images/slides/slider-default3.jpg" alt="" title="#slidecaption3">
+			</div>
+
+
+			<div id="slidecaption1" class="nivo-html-caption">
+				<h4>MODERN INTERIOR DESIGN STUDIO</h4>
+				<h2>Making Your Dream Home More Beautiful</h2>
+
+
+				<a class="slidermorebtn" href="#">Read More</a>
+			</div>
+
+			<div id="slidecaption2" class="nivo-html-caption">
+				<h4>CREATE YOUR MODERN STYLISH HOME</h4>
+				<h2>Interior Will Give Your Home The Best Look</h2>
+
+
+				<a class="slidermorebtn" href="#">Read More</a>
+			</div>
+
+			<div id="slidecaption3" class="nivo-html-caption">
+				<h4>ARCHITECTS IS YOUR BEST CHOICE</h4>
+				<h2>We Provide Creative and Quality Services</h2>
+
+
+				<a class="slidermorebtn" href="#">Read More</a>
+			</div>
+
+
+		</div><!-- .HomepageSlider -->
 					@RenderBody()
 			@await Html.PartialAsync("~/Views/PartialView/_Footer.cshtml")
   
