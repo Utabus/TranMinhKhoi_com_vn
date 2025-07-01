@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using TranMinhKhoi_com_vn.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-//builder.Services.AddDbContext<TranMinhKhoiDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("TranMinhKhoiDB")));
+builder.Services.AddDbContext<TranMinhKhoiDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("TranMinhKhoiDB")));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

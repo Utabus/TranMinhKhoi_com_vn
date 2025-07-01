@@ -1,0 +1,148 @@
+﻿@model TranMinhKhoi_com_vn.Entities.Blog
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Blog</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="Image" class="form-control" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AccountId" class="control-label"></label>
+                <select asp-for="AccountId" class ="form-control" asp-items="ViewBag.AccountId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <textarea asp-for="Content" id="htmlelementid" style="max-width:auto" class="form-control" ></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <input asp-for="Type" class="form-control" />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cdt" class="control-label"></label>
+                <input asp-for="Cdt" class="form-control" />
+                <span asp-validation-for="Cdt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>
+        (function (factory) {
+            if (typeof define === 'function' && define.amd) {
+                define(['jquery'], factory);
+            }
+            else if (typeof module === 'object' && module.exports) {
+                module.exports = factory(require('jquery'));
+            } else {
+                factory(window.jQuery);
+            }
+        }(function ($)   {
+            $.extend($.summernote.plugins, {
+                // Tạo plugin tên elfinder
+                'elfinder': function (context) {
+                    var self = this;
+                    // ui has renders to build ui elements.
+                    var ui = $.summernote.ui;
+                    // Tạo nút bấm
+                    context.memo('button.elfinder', function () {
+                        var button = ui.button({
+                            contents: '<i class="note-icon-picture"/> elFinder',
+                            tooltip: 'Quản lý file',
+                            click: function () {
+                                // Bấm vào nút bấm gọi hàm elfinderDialog
+                                elfinderDialog(context);
+                            }
+                        });
+                        // create jQuery object from button instance.
+                        var $elfinder = button.render();
+                        return $elfinder;
+                    });
+                    // This methods will be called when editor is destroyed by $('..').summernote('destroy');
+                    // You should remove elements on `initialize`.
+                    this.destroy = function () {
+                        this.$panel.remove();
+                        this.$panel = null;
+                    };
+                }
+
+            });
+        }));
+        function elfinderDialog(editor) {
+            var fm = $('<div/>').dialogelfinder({
+                baseUrl: "@Url.Content("~/lib/elfinder/")",
+                url: "@Url.Action("Connector", "HinhAnh", new { Area = "Admin" })",
+                lang: 'vi',
+                width: 840,
+                height: 450,
+                destroyOnClose: true,
+                getFileCallback: function (files, fm) {
+                    console.log(files);
+                    editor.invoke('editor.insertImage', files.url);
+                },
+                commandsOptions: {
+                    getfile: {
+                        oncomplete: 'close',
+                        folders: false
+                    }
+                }
+            }).dialogelfinder('instance');
+        }
+        $(document).ready(function () {
+            $('#htmlelementid').summernote({
+
+                height: 700,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['fontsize', ['fontsize']],
+                    ['fontname', ['fontname']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video', 'elfinder']],
+                    ['view', ['fullscreen', 'codeview', 'help']],
+                ],
+
+            });
+        });
+
+    </script>
+}

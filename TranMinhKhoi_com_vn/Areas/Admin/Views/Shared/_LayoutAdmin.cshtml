@@ -30,6 +30,16 @@
 
     <link href="~/admin/assets/css/style.css" rel="stylesheet">
 
+
+    <!-- Tích hợp summernote và elfinder -->
+    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/theme.css" />
+    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
+    <link rel="stylesheet" href="~/lib/elfinder/css/elfinder.full.css" />
+    <link rel="stylesheet" href="~/lib/elfinder/css/theme.css" />
+    <link rel="stylesheet" href="~/css/elfinder/themes/material/css/theme-gray.css" />
+    @*  summernote*@
+    <link rel="stylesheet" href="~/lib/summernote/summernote-bs5.css" />
+    <link rel="stylesheet" href="~/lib/summernote/summernote-lite.css" />
 </head>
 <body>
     <header>
@@ -70,9 +80,37 @@
     <script src="~/admin/assets/vendor/simple-datatables/simple-datatables.js"></script>
     <script src="~/admin/assets/vendor/tinymce/tinymce.min.js"></script>
     <script src="~/admin/assets/vendor/php-email-form/validate.js"></script>
-
     <!-- Template Main JS File -->
+
+
+
     <script src="~/admin/assets/js/main.js"></script>
+
+    @*elfinder*@
+
+
+    <environment names="Development">
+
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        @* <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>*@
+
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+        </script>
+
+    </environment>
+
+    <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/lib/elfinder/js/elfinder.full.js"></script>
+
+    @* summernote*@
+
+    <script src="~/lib/summernote/summernote-bs5.js"></script>
+    <script src="~/lib/summernote/summernote-lite.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 
 </body>
 </html>
