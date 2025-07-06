@@ -4,7 +4,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "" : "collapsed")"
+            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "" : "collapsed")"
                 asp-area="Admin" asp-controller="Home" asp-action="Index">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
@@ -12,7 +12,7 @@
         </li><!-- End Dashboard Nav -->
 
         <li class="nav-item">
-            <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Accounts" ? "" : "collapsed")"
+            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Accounts" ? "" : "collapsed")"
                 asp-action="Index" asp-controller="Accounts">
                 <i class="bi bi-person"></i>
                 <span>Account</span>
@@ -20,7 +20,7 @@
         </li><!-- End Profile Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Blogs" ? "" : "collapsed")"
+            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Blogs" ? "" : "collapsed")"
                 asp-action="Index" asp-controller="Blogs">
                 <i class="bi bi-person"></i>
                 <span>Blog</span>
@@ -28,7 +28,7 @@
         </li><!-- End Profile Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Courses" ? "" : "collapsed")"
+            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Courses" ? "" : "collapsed")"
                 asp-action="Index" asp-controller="Courses">
                 <i class="bi bi-person"></i>
                 <span>Courses</span>
@@ -36,7 +36,7 @@
         </li><!-- End Profile Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Funds" ? "" : "collapsed")"
+            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Funds" ? "" : "collapsed")"
                 asp-action="Index" asp-controller="Funds">
                 <i class="bi bi-person"></i>
                 <span>Funds</span>
@@ -44,7 +44,7 @@
         </li><!-- End Profile Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "KeySePays" ? "" : "collapsed")"
+            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "KeySePays" ? "" : "collapsed")"
                 asp-action="Index" asp-controller="KeySePays">
                 <i class="bi bi-person"></i>
                 <span>KeySePays</span>

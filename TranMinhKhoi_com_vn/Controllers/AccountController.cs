@@ -11,20 +11,16 @@ using MailKit.Security;
 using MimeKit;
 using TranMinhKhoi_com_vn.Models;
 using System.ComponentModel.DataAnnotations;
+using TranMinhKhoi_com_vn.Areas.Admin.Controllers;
 
 namespace TranMinhKhoi_com_vn.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        private readonly TranMinhKhoiDbContext _context;
-        public static string image;
-        public INotyfService _notyfService { get; }
-        public AccountController(TranMinhKhoiDbContext context, INotyfService notyfService)
+        public AccountController(TranMinhKhoiDbContext context, INotyfService notyfService, IConfiguration configuration) : base(context, notyfService, configuration)
         {
-
-            _context = context;
-            _notyfService = notyfService;
         }
+
         public IActionResult Index()
         {
             return View();
@@ -65,8 +61,8 @@ namespace TranMinhKhoi_com_vn.Controllers
                 account.ResetTokenExpiry = DateTime.UtcNow.AddHours(7).AddMinutes(10);
                 await _context.SaveChangesAsync();
                 HttpContext.Session.SetString("OTP", token);
-                HttpContext.Session.SetString("Email", account.Email);
-                HttpContext.Session.SetString("ResetTokenExpiry", account.ResetTokenExpiry.ToString());
+                HttpContext.Session.SetString("Email", account.Email ??"");
+                HttpContext.Session.SetString("ResetTokenExpiry", account.ResetTokenExpiry.ToString()??"");
                 var email = new MimeMessage();
                 email.From.Add(new MailboxAddress("AdminDotnet", "admin@example.com"));
                 email.To.Add(MailboxAddress.Parse($"{account.Email}"));
@@ -121,8 +117,8 @@ namespace TranMinhKhoi_com_vn.Controllers
 
                 List<Claim> claims = new List<Claim>()
                {
-                   new Claim(ClaimTypes.Name, user.FullName),
-                   new Claim("UserName" , user.UserName),
+                   new Claim(ClaimTypes.Name, user.FullName??""),
+                   new Claim("UserName" , user.UserName ?? ""),
                    new Claim("Id" , user.Id.ToString()),
                     new Claim("Avartar", "/contents/Images/User/" + user.Avartar)
                };
@@ -247,7 +243,7 @@ namespace TranMinhKhoi_com_vn.Controllers
                 await _context.SaveChangesAsync();
                 HttpContext.Session.SetString("ResetToken", token);
                 HttpContext.Session.SetString("Email", user.Email);
-                HttpContext.Session.SetString("ResetTokenExpiry", user.ResetTokenExpiry.ToString());
+                HttpContext.Session.SetString("ResetTokenExpiry", user.ResetTokenExpiry.ToString() ?? "");
                 var email = new MimeMessage();
                 email.From.Add(new MailboxAddress("AdminDotnet", "admin@example.com"));
                 email.To.Add(MailboxAddress.Parse($"{Email}"));
@@ -265,7 +261,7 @@ namespace TranMinhKhoi_com_vn.Controllers
                     smtp.Send(email);
                     smtp.Disconnect(true);
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
                     _notyfService.Error("Không thể gửi email. Vui lòng thử lại sau.");
                     return View();
@@ -311,7 +307,7 @@ namespace TranMinhKhoi_com_vn.Controllers
                         return View(model);
                     }
 
-                    user.Password = model.Password.ToMD5();
+                    user.Password = model.Password ?? "".ToMD5();
                     user.ResetToken = null;
                     user.ResetTokenExpiry = null;
                     await _context.SaveChangesAsync();

@@ -37,7 +37,7 @@
                     <dt class="col-sm-4">Chuyên ngành</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.Major)</dd>
                     <dt class="col-sm-4">Quyền</dt>
-                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Role.Id)</dd>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Role.Name)</dd>
                 </dl>
                 <div class="d-flex justify-content-between align-items-center mt-4">
                     <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning"><i class="bi bi-pencil-square"></i> Sửa</a>

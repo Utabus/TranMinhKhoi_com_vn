@@ -36,7 +36,7 @@ namespace TranMinhKhoi_com_vn.Helper
 
             return result;
         }
-        public static async Task<string> UploadFile(IFormFile file, string sDirectory, string newname = null)
+        public static async Task<string> UploadFile(IFormFile file, string sDirectory, string newname = "")
         {
             try
             {
@@ -50,7 +50,7 @@ namespace TranMinhKhoi_com_vn.Helper
                 var fileExt = Path.GetExtension(file.FileName).Substring(1);
                 if (!supportedTypes.Contains(fileExt.ToLower()))
                 {
-                    return null;
+                    return "";
                 }
                 else
                 {
@@ -64,7 +64,7 @@ namespace TranMinhKhoi_com_vn.Helper
             }
             catch
             {
-                return null;
+                return "";
             }
         }
 

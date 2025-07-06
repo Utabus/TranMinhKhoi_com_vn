@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TranMinhKhoi_com_vn.Entities;
+using TranMinhKhoi_com_vn.Helper;
 
 namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
 {
@@ -48,20 +49,23 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
             return View();
         }
 
-        // POST: Admin/Courses/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,Image,Cdt,Link,Content,Donat")] Course course)
+        public async Task<IActionResult> Create(Course course, IFormFile fAvatar)
         {
-            if (ModelState.IsValid)
+
+
+            if (fAvatar != null)
             {
-                _context.Add(course);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                string extennsion = Path.GetExtension(fAvatar.FileName);
+                image = Utilities.ToUrlFriendly(course.Title ?? "") + extennsion;
+                course.Image = await Utilities.UploadFile(fAvatar, @"Course", image.ToLower());
             }
-            return View(course);
+            course.Donat = 0;
+
+            _context.Add(course);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Admin/Courses/Edit/5
@@ -80,39 +84,43 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
             return View(course);
         }
 
-        // POST: Admin/Courses/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Image,Cdt,Link,Content,Donat")] Course course)
+        public async Task<IActionResult> Edit(int id, Course course, IFormFile fAvatar)
         {
             if (id != course.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
+                if (fAvatar != null)
                 {
-                    _context.Update(course);
-                    await _context.SaveChangesAsync();
+                    string extennsion = Path.GetExtension(fAvatar.FileName);
+                    image = Utilities.ToUrlFriendly(course.Title ?? "") + extennsion;
+                    course.Image = await Utilities.UploadFile(fAvatar, @"User", image.ToLower());
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!CourseExists(course.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    course.Image = _context.Courses.Where(x => x.Id == id).Select(x => x.Image).FirstOrDefault();
                 }
-                return RedirectToAction(nameof(Index));
+
+                _context.Update(course);
+                await _context.SaveChangesAsync();
             }
-            return View(course);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CourseExists(course.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Admin/Courses/Delete/5

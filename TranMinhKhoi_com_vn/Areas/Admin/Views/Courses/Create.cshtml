@@ -15,7 +15,7 @@
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
                     <div class="mb-3">
                         <label asp-for="Title" class="form-label fw-bold"></label>
-                        <input asp-for="Title" class="form-control" />
+                        <input asp-for="Title" class="form-control" required/>
                         <span asp-validation-for="Title" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
@@ -25,13 +25,13 @@
                     </div>
                     <div class="mb-3">
                         <label asp-for="Image" class="form-label fw-bold"></label>
-                        <input asp-for="Image" class="form-control" />
+                        <input type="file" name="fAvatar" asp-for="Image" class="form-control" accept="image/*" onchange="previewImage(this)" required />
                         <span asp-validation-for="Image" class="text-danger"></span>
                     </div>
                  
                     <div class="mb-3">
                         <label asp-for="Link" class="form-label fw-bold"></label>
-                        <input asp-for="Link" class="form-control" />
+                        <input asp-for="Link" class="form-control" required />
                         <span asp-validation-for="Link" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
@@ -52,6 +52,20 @@
 
 @section Scripts {
     <script>
+
+        function previewImage(input) {
+            var preview = document.getElementById('preview');
+            var imagePreview = document.getElementById('image-preview');
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.setAttribute('src', e.target.result);
+                    preview.style.display = 'block';
+                    imagePreview.style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        };
         (function (factory) {
             if (typeof define === 'function' && define.amd) {
                 define(['jquery'], factory);

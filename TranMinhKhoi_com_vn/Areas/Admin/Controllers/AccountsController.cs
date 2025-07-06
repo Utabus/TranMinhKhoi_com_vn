@@ -82,14 +82,14 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
             if (fAvatar != null)
             {
                 string extennsion = Path.GetExtension(fAvatar.FileName);
-                image = Utilities.ToUrlFriendly(account.UserName) + extennsion;
+                image = Utilities.ToUrlFriendly(account.UserName ?? "") + extennsion;
                 account.Avartar = await Utilities.UploadFile(fAvatar, @"User", image.ToLower());
             }
             account.Avartar = "UserDemo.jpg";
             account.Password = mk.ToMD5();
             account.Coin = 0;
             account.RoleId = 2;
-            account.FullName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(account.FullName);
+            account.FullName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(account.FullName ?? "");
             _context.Add(account);
             await _context.SaveChangesAsync();
             _notyfService.Success("Thêm thành công");
@@ -132,7 +132,7 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
                 if (fAvatar != null)
                 {
                     string extennsion = Path.GetExtension(fAvatar.FileName);
-                    image = Utilities.ToUrlFriendly(account.UserName) + extennsion;
+                    image = Utilities.ToUrlFriendly(account.UserName ?? "") + extennsion;
                     nhanvien.Avartar = await Utilities.UploadFile(fAvatar, @"User", image.ToLower());
                 }
                 else
