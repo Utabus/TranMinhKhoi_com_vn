@@ -11,21 +11,20 @@ using TranMinhKhoi_com_vn.Entities;
 namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class BlogsController : BaseController
+    public class CoursesController : BaseController
     {
-        public BlogsController(TranMinhKhoiDbContext context, INotyfService notyfService, IConfiguration configuration) : base(context, notyfService, configuration)
+        public CoursesController(TranMinhKhoiDbContext context, INotyfService notyfService, IConfiguration configuration)
+            : base(context, notyfService, configuration)
         {
         }
 
-
-        // GET: Admin/Blogs
+        // GET: Admin/Courses
         public async Task<IActionResult> Index()
         {
-            var tranMinhKhoiDbContext = _context.Blogs.Include(b => b.Account);
-            return View(await tranMinhKhoiDbContext.ToListAsync());
+            return View(await _context.Courses.ToListAsync());
         }
 
-        // GET: Admin/Blogs/Details/5
+        // GET: Admin/Courses/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +32,39 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var blog = await _context.Blogs
-                .Include(b => b.Account)
+            var course = await _context.Courses
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (blog == null)
+            if (course == null)
             {
                 return NotFound();
             }
 
-            return View(blog);
+            return View(course);
         }
 
-        // GET: Admin/Blogs/Create
+        // GET: Admin/Courses/Create
         public IActionResult Create()
         {
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "Id", "Id");
             return View();
         }
 
+        // POST: Admin/Courses/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Blog blog)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,Image,Cdt,Link,Content,Donat")] Course course)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(blog);
+                _context.Add(course);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "Id", "Id", blog.AccountId);
-            return View(blog);
+            return View(course);
         }
 
-        // GET: Admin/Blogs/Edit/5
+        // GET: Admin/Courses/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,20 +72,22 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var blog = await _context.Blogs.FindAsync(id);
-            if (blog == null)
+            var course = await _context.Courses.FindAsync(id);
+            if (course == null)
             {
                 return NotFound();
             }
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "Id", "Id", blog.AccountId);
-            return View(blog);
+            return View(course);
         }
 
+        // POST: Admin/Courses/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,Blog blog)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Image,Cdt,Link,Content,Donat")] Course course)
         {
-            if (id != blog.Id)
+            if (id != course.Id)
             {
                 return NotFound();
             }
@@ -95,12 +96,12 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(blog);
+                    _context.Update(course);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BlogExists(blog.Id))
+                    if (!CourseExists(course.Id))
                     {
                         return NotFound();
                     }
@@ -111,11 +112,10 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "Id", "Id", blog.AccountId);
-            return View(blog);
+            return View(course);
         }
 
-        // GET: Admin/Blogs/Delete/5
+        // GET: Admin/Courses/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,35 +123,34 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var blog = await _context.Blogs
-                .Include(b => b.Account)
+            var course = await _context.Courses
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (blog == null)
+            if (course == null)
             {
                 return NotFound();
             }
 
-            return View(blog);
+            return View(course);
         }
 
-        // POST: Admin/Blogs/Delete/5
+        // POST: Admin/Courses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var blog = await _context.Blogs.FindAsync(id);
-            if (blog != null)
+            var course = await _context.Courses.FindAsync(id);
+            if (course != null)
             {
-                _context.Blogs.Remove(blog);
+                _context.Courses.Remove(course);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BlogExists(int id)
+        private bool CourseExists(int id)
         {
-            return _context.Blogs.Any(e => e.Id == id);
+            return _context.Courses.Any(e => e.Id == id);
         }
     }
 }

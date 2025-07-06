@@ -1,4 +1,7 @@
+using AspNetCoreHero.ToastNotification;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using TranMinhKhoi_com_vn.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +9,29 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<TranMinhKhoiDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("TranMinhKhoiDB")));
+builder.Services.AddNotyf(config => { config.DurationInSeconds = 3; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
+builder.Services.AddHttpContextAccessor();
+
+
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(10);
+});
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.Name = "TranMinhKhoi_com_vn.Cookies";
+        options.ExpireTimeSpan = TimeSpan.FromHours(8);
+        options.SlidingExpiration = true;
+        options.LoginPath = "/Admin/Account/Login";
+        options.AccessDeniedPath = "/Admin/Account/Login";
+        options.Cookie.HttpOnly = true;
+        options.Cookie.IsEssential = true;
+
+    });
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -21,8 +47,18 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseSession();
+
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "UpLoads")
+        ),
+    RequestPath = "/contents"
+});
 app.MapAreaControllerRoute(
     name: "areas",
     areaName: "Admin",

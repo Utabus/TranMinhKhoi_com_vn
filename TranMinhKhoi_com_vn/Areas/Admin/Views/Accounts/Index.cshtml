@@ -5,98 +5,68 @@
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UserName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Avartar)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FullName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Coin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Birthday)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Gender)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Major)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Role)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Avartar)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Coin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Birthday)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Gender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Major)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Role.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<h1 class="mb-4 text-center">Danh sách tài khoản</h1>
+<div class="row justify-content-center">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="card-title mb-0">Tài khoản</h4>
+                    <a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Thêm mới</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.First().UserName)</th>
+                                <th>@Html.DisplayNameFor(model => model.First().Avartar)</th>
+                                <th>@Html.DisplayNameFor(model => model.First().Email)</th>
+                                <th>@Html.DisplayNameFor(model => model.First().FullName)</th>
+                                <th>@Html.DisplayNameFor(model => model.First().Phone)</th>
+                                <th>@Html.DisplayNameFor(model => model.First().Coin)</th>
+                                <th>@Html.DisplayNameFor(model => model.First().Birthday)</th>
+                                <th>@Html.DisplayNameFor(model => model.First().Gender)</th>
+                                <th>@Html.DisplayNameFor(model => model.First().Status)</th>
+                                <th>@Html.DisplayNameFor(model => model.First().Major)</th>
+                                <th>@Html.DisplayNameFor(model => model.First().Role)</th>
+                                <th class="text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var item in Model) {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.Avartar)) {
+                                        <img src="@Url.Content("~/contents/Images/User/" + item.Avartar)" alt="Avatar" class="rounded-circle border" style="width: 40px; height: 40px; object-fit: cover;">
+                                    } else {
+                                        <span class="text-muted">(Không có)</span>
+                                    }
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                                <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Coin)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Birthday)</td>
+                                <td>
+                                    @if(item.Gender == 1) { <span class="badge bg-primary">Nam</span> } else { <span class="badge bg-pink">Nữ</span> }
+                                </td>
+                                <td>
+                                    @if(item.Status == 1) { <span class="badge bg-success">Hoạt động</span> } else { <span class="badge bg-secondary">Ngừng</span> }
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.Major)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Role.Id)</td>
+                                <td class="text-center">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning me-1"><i class="bi bi-pencil-square"></i></a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info me-1"><i class="bi bi-info-circle"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

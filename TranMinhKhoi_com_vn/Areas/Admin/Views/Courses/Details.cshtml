@@ -1,11 +1,11 @@
-﻿@model TranMinhKhoi_com_vn.Entities.Blog
+﻿@model TranMinhKhoi_com_vn.Entities.Course
 
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1 class="mb-4 text-center">Chi tiết bài viết</h1>
+<h1 class="mb-4 text-center">Chi tiết khoá học</h1>
 <div class="row justify-content-center">
     <div class="col-lg-7 col-md-9">
         <div class="card shadow-sm">
@@ -22,16 +22,14 @@
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.Title)</dd>
                     <dt class="col-sm-4">Mô tả</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.Description)</dd>
+                    <dt class="col-sm-4">Link</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Link)</dd>
                     <dt class="col-sm-4">Nội dung</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.Content)</dd>
-                    <dt class="col-sm-4">Loại</dt>
-                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Type)</dd>
-                    <dt class="col-sm-4">Trạng thái</dt>
-                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Status)</dd>
                     <dt class="col-sm-4">Ngày tạo</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.Cdt)</dd>
-                    <dt class="col-sm-4">Tài khoản</dt>
-                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Account.Id)</dd>
+                    <dt class="col-sm-4">Donat</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Donat)</dd>
                 </dl>
                 <div class="d-flex justify-content-between align-items-center mt-4">
                     <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning"><i class="bi bi-pencil-square"></i> Sửa</a>

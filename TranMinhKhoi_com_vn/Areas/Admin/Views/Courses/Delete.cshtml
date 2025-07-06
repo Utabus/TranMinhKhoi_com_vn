@@ -1,17 +1,17 @@
-﻿@model TranMinhKhoi_com_vn.Entities.Blog
+﻿@model TranMinhKhoi_com_vn.Entities.Course
 
 @{
     ViewData["Title"] = "Delete";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1 class="mb-4 text-center text-danger">Xóa bài viết</h1>
+<h1 class="mb-4 text-center text-danger">Xóa khoá học</h1>
 <div class="row justify-content-center">
     <div class="col-lg-7 col-md-9">
         <div class="card shadow-sm border-danger">
             <div class="card-body">
                 <div class="alert alert-danger text-center fw-bold mb-4">
-                    Bạn có chắc chắn muốn xóa bài viết này không?
+                    Bạn có chắc chắn muốn xóa khoá học này không?
                 </div>
                 <div class="text-center mb-4">
                     @if (!string.IsNullOrEmpty(Model.Image)) {
@@ -25,12 +25,14 @@
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.Title)</dd>
                     <dt class="col-sm-4">Mô tả</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.Description)</dd>
-                    <dt class="col-sm-4">Loại</dt>
-                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Type)</dd>
-                    <dt class="col-sm-4">Trạng thái</dt>
-                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Status)</dd>
+                    <dt class="col-sm-4">Link</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Link)</dd>
+                    <dt class="col-sm-4">Nội dung</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Content)</dd>
                     <dt class="col-sm-4">Ngày tạo</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.Cdt)</dd>
+                    <dt class="col-sm-4">Donat</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Donat)</dd>
                 </dl>
                 <form asp-action="Delete">
                     <input type="hidden" asp-for="Id" />

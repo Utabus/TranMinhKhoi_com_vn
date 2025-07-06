@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,21 +10,22 @@ using TranMinhKhoi_com_vn.Entities;
 namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class BlogsController : BaseController
+    public class KeySePaysController : Controller
     {
-        public BlogsController(TranMinhKhoiDbContext context, INotyfService notyfService, IConfiguration configuration) : base(context, notyfService, configuration)
+        private readonly TranMinhKhoiDbContext _context;
+
+        public KeySePaysController(TranMinhKhoiDbContext context)
         {
+            _context = context;
         }
 
-
-        // GET: Admin/Blogs
+        // GET: Admin/KeySePays
         public async Task<IActionResult> Index()
         {
-            var tranMinhKhoiDbContext = _context.Blogs.Include(b => b.Account);
-            return View(await tranMinhKhoiDbContext.ToListAsync());
+            return View(await _context.KeySePays.ToListAsync());
         }
 
-        // GET: Admin/Blogs/Details/5
+        // GET: Admin/KeySePays/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,36 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var blog = await _context.Blogs
-                .Include(b => b.Account)
+            var keySePay = await _context.KeySePays
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (blog == null)
+            if (keySePay == null)
             {
                 return NotFound();
             }
 
-            return View(blog);
+            return View(keySePay);
         }
 
-        // GET: Admin/Blogs/Create
+        // GET: Admin/KeySePays/Create
         public IActionResult Create()
         {
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "Id", "Id");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Blog blog)
+        public async Task<IActionResult> Create([Bind("Id,KeyApi,NumberBank,Name,Cdt,Status,Content")] KeySePay keySePay)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(blog);
+                _context.Add(keySePay);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "Id", "Id", blog.AccountId);
-            return View(blog);
+            return View(keySePay);
         }
 
-        // GET: Admin/Blogs/Edit/5
+        // GET: Admin/KeySePays/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,20 +70,19 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var blog = await _context.Blogs.FindAsync(id);
-            if (blog == null)
+            var keySePay = await _context.KeySePays.FindAsync(id);
+            if (keySePay == null)
             {
                 return NotFound();
             }
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "Id", "Id", blog.AccountId);
-            return View(blog);
+            return View(keySePay);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,Blog blog)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,KeyApi,NumberBank,Name,Cdt,Status,Content")] KeySePay keySePay)
         {
-            if (id != blog.Id)
+            if (id != keySePay.Id)
             {
                 return NotFound();
             }
@@ -95,12 +91,12 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(blog);
+                    _context.Update(keySePay);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BlogExists(blog.Id))
+                    if (!KeySePayExists(keySePay.Id))
                     {
                         return NotFound();
                     }
@@ -111,11 +107,10 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "Id", "Id", blog.AccountId);
-            return View(blog);
+            return View(keySePay);
         }
 
-        // GET: Admin/Blogs/Delete/5
+        // GET: Admin/KeySePays/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,35 +118,34 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var blog = await _context.Blogs
-                .Include(b => b.Account)
+            var keySePay = await _context.KeySePays
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (blog == null)
+            if (keySePay == null)
             {
                 return NotFound();
             }
 
-            return View(blog);
+            return View(keySePay);
         }
 
-        // POST: Admin/Blogs/Delete/5
+        // POST: Admin/KeySePays/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var blog = await _context.Blogs.FindAsync(id);
-            if (blog != null)
+            var keySePay = await _context.KeySePays.FindAsync(id);
+            if (keySePay != null)
             {
-                _context.Blogs.Remove(blog);
+                _context.KeySePays.Remove(keySePay);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BlogExists(int id)
+        private bool KeySePayExists(int id)
         {
-            return _context.Blogs.Any(e => e.Id == id);
+            return _context.KeySePays.Any(e => e.Id == id);
         }
     }
 }

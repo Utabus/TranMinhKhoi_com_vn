@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TranMinhKhoi_com_vn.Entities;
 
@@ -30,6 +31,11 @@ public partial class Account
     public byte? Status { get; set; }
 
     public string? Major { get; set; }
+    [NotMapped]
+    public string? ResetToken { get; set; }
+
+    [NotMapped]
+    public DateTime? ResetTokenExpiry { get; set; }
 
     public virtual ICollection<Blog> Blogs { get; set; } = new List<Blog>();
 
