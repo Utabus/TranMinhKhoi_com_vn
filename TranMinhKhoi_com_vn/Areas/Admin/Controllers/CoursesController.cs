@@ -62,6 +62,7 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
                 course.Image = await Utilities.UploadFile(fAvatar, @"Course", image.ToLower());
             }
             course.Donat = 0;
+            course.Cdt = DateTime.UtcNow.AddHours(7);
 
             _context.Add(course);
             await _context.SaveChangesAsync();
@@ -99,7 +100,7 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
                 {
                     string extennsion = Path.GetExtension(fAvatar.FileName);
                     image = Utilities.ToUrlFriendly(course.Title ?? "") + extennsion;
-                    course.Image = await Utilities.UploadFile(fAvatar, @"User", image.ToLower());
+                    course.Image = await Utilities.UploadFile(fAvatar, @"Course", image.ToLower());
                 }
                 else
                 {

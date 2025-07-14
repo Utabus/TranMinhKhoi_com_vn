@@ -12,6 +12,7 @@ public partial class Course
     public string? Description { get; set; }
 
     public string? Image { get; set; }
+    public string? Iframe { get; set; }
 
     public DateTime? Cdt { get; set; }
 

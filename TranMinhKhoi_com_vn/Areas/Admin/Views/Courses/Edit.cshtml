@@ -11,9 +11,11 @@
         <div class="card shadow-sm">
             <div class="card-body">
                 <h4 class="card-title mb-3">Thông tin khoá học</h4>
-                <form asp-action="Edit">
+                <form asp-action="Edit" method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
                     <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="Cdt" />
+                    <input type="hidden" asp-for="Donat" />
                     <div class="mb-3">
                         <label asp-for="Title" class="form-label fw-bold"></label>
                         <input asp-for="Title" class="form-control" required />
@@ -32,15 +34,16 @@
                         <input type="file" name="fAvatar" asp-for="Image" class="form-control" accept="image/*" onchange="loadFile(event)" />
                         <span asp-validation-for="Image" class="text-danger"></span>
                     </div>
-                    <div class="mb-3">
-                        <label asp-for="Cdt" class="form-label fw-bold"></label>
-                        <input asp-for="Cdt" class="form-control" required />
-                        <span asp-validation-for="Cdt" class="text-danger"></span>
-                    </div>
+                
                     <div class="mb-3">
                         <label asp-for="Link" class="form-label fw-bold"></label>
                         <input asp-for="Link" class="form-control" required />
                         <span asp-validation-for="Link" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Iframe" class="form-label fw-bold"></label>
+                        <input asp-for="Iframe" class="form-control" required />
+                        <span asp-validation-for="Iframe" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
                         <label asp-for="Content" class="form-label fw-bold"></label>

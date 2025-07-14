@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,14 +11,15 @@ using TranMinhKhoi_com_vn.Entities;
 namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class KeySePaysController : Controller
+    public class KeySePaysController : BaseController
     {
-        private readonly TranMinhKhoiDbContext _context;
-
-        public KeySePaysController(TranMinhKhoiDbContext context)
+        public KeySePaysController(TranMinhKhoiDbContext context, INotyfService notyfService, IConfiguration configuration)
+            : base(context, notyfService, configuration)
         {
-            _context = context;
         }
+
+
+
 
         // GET: Admin/KeySePays
         public async Task<IActionResult> Index()
@@ -51,7 +53,7 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,KeyApi,NumberBank,Name,Cdt,Status,Content")] KeySePay keySePay)
+        public async Task<IActionResult> Create(KeySePay keySePay)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +82,7 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,KeyApi,NumberBank,Name,Cdt,Status,Content")] KeySePay keySePay)
+        public async Task<IActionResult> Edit(int id, KeySePay keySePay)
         {
             if (id != keySePay.Id)
             {

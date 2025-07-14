@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TranMinhKhoi_com_vn.Entities;
+using TranMinhKhoi_com_vn.Helper;
 
 namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
 {
@@ -47,22 +48,36 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
         // GET: Admin/Blogs/Create
         public IActionResult Create()
         {
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "Id", "Id");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Blog blog)
+        public async Task<IActionResult> Create(Blog blog, IFormFile fAvatar)
         {
-            if (ModelState.IsValid)
+
+            //var makhclaim = User.Claims.FirstOrDefault(c => c.Type == "Id");
+
+            //if (makhclaim == null)
+            //{
+            //    _notyfService.Error("Bạn chưa đăng nhập, vui lòng đăng nhập để thực hiện chức năng này.");
+            //    return View();
+            //}
+            //var maKH = makhclaim.Value;
+            if (fAvatar != null)
             {
-                _context.Add(blog);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                string extennsion = Path.GetExtension(fAvatar.FileName);
+                image = Utilities.ToUrlFriendly(blog.Title ?? "") + extennsion;
+                blog.Image= await Utilities.UploadFile(fAvatar, @"Blog", image.ToLower());
             }
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "Id", "Id", blog.AccountId);
-            return View(blog);
+            blog.Cdt = DateTime.UtcNow.AddHours(7);
+            blog.AccountId = null;
+            blog.Status = 1;
+
+
+            _context.Add(blog);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Admin/Blogs/Edit/5
@@ -78,13 +93,12 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "Id", "Id", blog.AccountId);
             return View(blog);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,Blog blog)
+        public async Task<IActionResult> Edit(int id, Blog blog, IFormFile fAvatar)
         {
             if (id != blog.Id)
             {
@@ -95,6 +109,17 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
             {
                 try
                 {
+                    if (fAvatar != null)
+                    {
+                        string extennsion = Path.GetExtension(fAvatar.FileName);
+                        image = Utilities.ToUrlFriendly(blog.Title ?? "") + extennsion;
+                        blog.Image = await Utilities.UploadFile(fAvatar, @"Blog", image.ToLower());
+                    }
+                    else
+                    {
+                        blog.Image = _context.Blogs.Where(x => x.Id == id).Select(x => x.Image).FirstOrDefault();
+                    }
+
                     _context.Update(blog);
                     await _context.SaveChangesAsync();
                 }

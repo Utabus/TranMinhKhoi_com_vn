@@ -33,7 +33,7 @@
                                 <td>@Html.DisplayFor(modelItem => item.Description)</td>
                                 <td>
                                     @if (!string.IsNullOrEmpty(item.Image)) {
-                                        <img src="+@item.Image" alt="Ảnh" class="rounded border" style="width: 60px; height: 40px; object-fit: cover;">
+                                            <img src="~/contents/Images/Course/@item.Image" alt="Ảnh" class="rounded border" style="width: 60px; height: 40px; object-fit: cover;">
                                     } else {
                                         <span class="text-muted">(Không có)</span>
                                     }

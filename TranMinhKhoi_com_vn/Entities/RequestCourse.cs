@@ -12,6 +12,7 @@ public partial class RequestCourse
     public int? CourseId { get; set; }
 
     public DateTime? Cdt { get; set; }
+    public bool? Status { get; set; }
 
     public virtual Account? Account { get; set; }
 

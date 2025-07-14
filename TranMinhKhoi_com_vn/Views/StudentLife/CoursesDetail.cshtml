@@ -1,48 +1,48 @@
-﻿<div class="container">
+﻿@model TranMinhKhoi_com_vn.Entities.Course
+
+<div class="container">
     <div id="tabber-BX">
         <div class="LayoutContent-70 fullwidth">
             <div class="BlogPostList">
                 <article id="post-462"
-                    class="single-post post-462 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+                         class="single-post post-462 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
                     <div class="blogin-bx">
                         <header class="entry-header">
-                            <h3 class="single-title">It has survived not only five centuries, but also the leap into
-                                electronic typesetting</h3>
+                            <h3 class="single-title">
+                                It has survived not only five centuries, but also the leap into
+                                electronic typesetting
+                            </h3>
                             <div class="blog-postmeta">
 
-                                <div class="post-date"> <i class="far fa-clock"></i> August 11, 2024</div>
+                                <div class="post-date"> <i class="far fa-clock"></i> @Model.Cdt?.ToString("dd-MM-yyyy")</div>
                                 <!-- post-date -->
-                                <span class="blog-postcat"> <i class="fa-solid fa-comments"></i> <a
-                                        href="index.html#respond">No Comments</a></span>
+                                <span class="blog-postcat">
+                                    <i class="fa-solid fa-comments"></i> <a href="index.html#respond">No Comments</a>
+                                </span>
 
                             </div><!-- .blog-postmeta -->
                         </header><!-- .entry-header -->
 
                         <div class="entry-content">
-                            <div class="blog-post-thumb"><img fetchpriority="high" width="1024" height="576"
-                                    src="../../../../wp-content/uploads/sites/8/2024/08/blog2.jpg"
-                                    class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt=""
-                                    decoding="async"
-                                    srcset="https://layout.themescarts.com/home-styling-interior/wp-content/uploads/sites/8/2024/08/blog2.jpg 1024w, https://layout.themescarts.com/home-styling-interior/wp-content/uploads/sites/8/2024/08/blog2-300x169.jpg 300w, https://layout.themescarts.com/home-styling-interior/wp-content/uploads/sites/8/2024/08/blog2-768x432.jpg 768w, https://layout.themescarts.com/home-styling-interior/wp-content/uploads/sites/8/2024/08/blog2-600x338.jpg 600w"
-                                    sizes="(max-width: 1024px) 100vw, 1024px" /></div>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                has been the industry&#8217;s standard dummy text ever since the 1500s, when an unknown
-                                printer took a galley of type and scrambled it to make a type specimen book. It has
-                                survived not only five centuries, but also the leap into electronic typesetting,
-                                remaining essentially unchanged. It was popularised in the 1960s with the release of
-                                Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
-                                publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                            <div class="blog-post-thumb">
+                                <img fetchpriority="high" width="1024" height="614"
+                                     src="~/contents/Images/Course/@Model.Image"
+                                     class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" />
+                            </div>
+
+                           
+                            <div style="text-align: center">
+                                @Html.Raw(@Model.Iframe)   
+                            </div>
+                            <h3 style="text-align:center">
+                                Link Youtube : <a href="@Model.Link" target="_blank" style="color:blue">
+                                    @Model.Link
+                                </a>
+
+                            </h3>
+                            @Html.Raw(@Model.Content)
 
 
-
-                            <p>It is a long established fact that a reader will be distracted by the readable content of
-                                a page when looking at its layout. The point of using Lorem Ipsum is that it has a
-                                more-or-less normal distribution of letters, as opposed to using &#8216;Content here,
-                                content here&#8217;, making it look like readable English. Many desktop publishing
-                                packages and web page editors now use Lorem Ipsum as their default model text, and a
-                                search for &#8216;lorem ipsum&#8217; will uncover many web sites still in their infancy.
-                                Various versions have evolved over the years, sometimes by accident, sometimes on
-                                purpose (injected humour and the like).</p>
                             <div class="postmeta">
                                 <div class="post-tags"> </div>
                                 <div class="clear"></div>
@@ -55,9 +55,9 @@
             </div><!-- .BlogPostList-->
             <div class="clear"></div>
 
-         
+
         </div><!-- .LayoutContent-70-->
-      
+
         <div class="clear"></div>
     </div><!-- #tabber-BX -->
 </div><!-- container -->

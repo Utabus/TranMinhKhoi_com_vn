@@ -17,7 +17,7 @@ public partial class Blog
 
     public string? Content { get; set; }
 
-    public byte? Type { get; set; }
+    public string? Type { get; set; }
 
     public byte? Status { get; set; }
 

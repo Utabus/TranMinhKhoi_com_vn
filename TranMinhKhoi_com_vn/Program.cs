@@ -1,8 +1,10 @@
 using AspNetCoreHero.ToastNotification;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using TranMinhKhoi_com_vn.Entities;
+using TranMinhKhoi_com_vn.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<TranMinhKhoiDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("TranMinhKhoiDB")));
 builder.Services.AddNotyf(config => { config.DurationInSeconds = 3; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
 builder.Services.AddHttpContextAccessor();
-
+builder.Services.AddSignalR();
+builder.Services.AddSingleton<IUserIdProvider, QueryStringUserIdProvider>();
 
 
 builder.Services.AddSession(options =>
@@ -68,5 +71,6 @@ app.MapAreaControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.MapControllers();
+app.MapHub<SignalR_Hub>("/SignalRHub");
 app.Run();

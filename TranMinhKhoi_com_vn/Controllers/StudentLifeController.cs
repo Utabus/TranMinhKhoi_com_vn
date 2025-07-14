@@ -1,5 +1,6 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TranMinhKhoi_com_vn.Areas.Admin.Controllers;
 using TranMinhKhoi_com_vn.Entities;
 
@@ -15,19 +16,19 @@ namespace TranMinhKhoi_com_vn.Controllers
 		{
 			return View();
 		}
-        public IActionResult StudentLife()
+        public async Task<IActionResult> StudentLifeDetail(string Type)
         {
-            return View();
+            return View(await _context.Blogs.FirstOrDefaultAsync(c => c.Type == Type.Trim()));
         }
 
-        public IActionResult CoursesDetail()
+        public async Task<IActionResult> CoursesDetail(int id)
         {
-            return View();
+            return View(await _context.Courses.FirstOrDefaultAsync(c => c.Id == id));
         }
 
-        public IActionResult Courses()
+        public async Task<IActionResult> Courses()
         {
-            return View();
+            return View(await _context.Courses.ToListAsync());
         }
 
        

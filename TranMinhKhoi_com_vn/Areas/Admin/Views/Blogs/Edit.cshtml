@@ -11,17 +11,22 @@
         <div class="card shadow-sm">
             <div class="card-body">
                 <h4 class="card-title mb-3">Thông tin bài viết</h4>
-                <form asp-action="Edit">
+                <form asp-action="Edit" method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
                     <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="Cdt" />
+                    <input type="hidden" asp-for="Status" />
                     <div class="mb-3">
                         <label asp-for="Title" class="form-label fw-bold"></label>
                         <input asp-for="Title" class="form-control" required />
                         <span asp-validation-for="Title" class="text-danger"></span>
                     </div>
-                    <div class="mb-3">
-                        <label asp-for="Image" class="form-label fw-bold"></label>
-                        <input asp-for="Image" class="form-control" required />
+                    <div class="mb-3 text-center">
+                        <div id="image-preview" class="mb-2">
+                            <img id="output" src="@Url.Content("~/contents/Images/Blog/" + @Model.Image)" alt="Avatar Preview" class="rounded-circle border" style="width: 120px; height: 120px; object-fit: cover; @(string.IsNullOrEmpty(Model.Image) ? "display:none;" : "")">
+                        </div>
+                        <label asp-for="Image" class="form-label fw-bold">Ảnh đại diện</label>
+                        <input type="file" name="fAvatar" asp-for="Image" class="form-control" accept="image/*" onchange="loadFile(event)" />
                         <span asp-validation-for="Image" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
@@ -51,6 +56,12 @@
 
 @section Scripts {
     <script>
+
+        var loadFile = function (event) {
+            var image = document.getElementById("output");
+            image.src = URL.createObjectURL(event.target.files[0]);
+            image.style.display = 'block';
+        };
         (function (factory) {
             if (typeof define === 'function' && define.amd) {
                 define(['jquery'], factory);

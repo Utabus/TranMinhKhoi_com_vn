@@ -11,7 +11,7 @@
         <div class="card shadow-sm">
             <div class="card-body">
                 <h4 class="card-title mb-3">Thông tin bài viết</h4>
-                <form asp-action="Create">
+                <form asp-action="Create" method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
                     <div class="mb-3">
                         <label asp-for="Title" class="form-label fw-bold"></label>
@@ -20,7 +20,7 @@
                     </div>
                     <div class="mb-3">
                         <label asp-for="Image" class="form-label fw-bold"></label>
-                        <input asp-for="Image" class="form-control" required />
+                        <input type="file" name="fAvatar" asp-for="Image" class="form-control" accept="image/*" onchange="previewImage(this)" required />
                         <span asp-validation-for="Image" class="text-danger"></span>
                     </div>
                     <div class="mb-3">
@@ -52,6 +52,20 @@
 
 @section Scripts {
     <script>
+        function previewImage(input) {
+            var preview = document.getElementById('preview');
+            var imagePreview = document.getElementById('image-preview');
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.setAttribute('src', e.target.result);
+                    preview.style.display = 'block';
+                    imagePreview.style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        };
+
         (function (factory) {
             if (typeof define === 'function' && define.amd) {
                 define(['jquery'], factory);
