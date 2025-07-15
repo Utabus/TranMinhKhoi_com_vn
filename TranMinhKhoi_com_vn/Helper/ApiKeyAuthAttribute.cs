@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using System.Linq;
+using TranMinhKhoi_com_vn.Entities;
 
 namespace TranMinhKhoi_com_vn.Helper
 {
@@ -10,7 +12,14 @@ namespace TranMinhKhoi_com_vn.Helper
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            var expectedApiKey = "KhangAPIKey";
+            var dbContext = context.HttpContext.RequestServices.GetService(typeof(TranMinhKhoiDbContext)) as TranMinhKhoiDbContext;
+            if (dbContext == null)
+            {
+                context.Result = new UnauthorizedObjectResult("Internal server error: cannot access DB context");
+                return;
+            }
+
+            var expectedApiKey = dbContext.KeySePays.FirstOrDefault()?.KeyApi ?? "KhangAPIKey";
 
             if (!context.HttpContext.Request.Headers.TryGetValue(HeaderName, out var headerValue))
             {

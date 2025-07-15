@@ -4,11 +4,12 @@ namespace TranMinhKhoi_com_vn.Hubs
 {
     public class SignalR_Hub :Hub
     {
+
         public async Task SendMessage(string user, string message)
         {
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
-        public async Task SendPrivateMessage(string userId, string message)
+        public async Task SendPrivateMessage(string userId, bool message)
         {
             await Clients.User(userId).SendAsync("ReceivePrivateMessage", message);
         }

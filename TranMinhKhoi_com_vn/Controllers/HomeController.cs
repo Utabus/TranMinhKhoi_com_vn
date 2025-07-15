@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using TranMinhKhoi_com_vn.Entities;
 using TranMinhKhoi_com_vn.Models;
 
 namespace TranMinhKhoi_com_vn.Controllers
@@ -7,10 +9,11 @@ namespace TranMinhKhoi_com_vn.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly TranMinhKhoiDbContext _tranMinhKhoiDbContext;
+        public HomeController(ILogger<HomeController> logger ,TranMinhKhoiDbContext tranMinhKhoiDbContext)
         {
             _logger = logger;
+            _tranMinhKhoiDbContext = tranMinhKhoiDbContext;
         }
 
         public IActionResult Index()
@@ -33,9 +36,9 @@ namespace TranMinhKhoi_com_vn.Controllers
         {
             return View();
         }
-        public IActionResult Fund()
+        public async Task<IActionResult> Fund()
         {
-            return View();
+            return View(await _tranMinhKhoiDbContext.KeySePays.FirstOrDefaultAsync());
         }
         public IActionResult StudentLife()
         {

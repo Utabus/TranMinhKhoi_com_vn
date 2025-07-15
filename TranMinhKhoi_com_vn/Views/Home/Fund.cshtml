@@ -1,22 +1,143 @@
-﻿@{
-   
+﻿@model TranMinhKhoi_com_vn.Entities.KeySePay
+
+@{
     var Idclaim = User.Claims.FirstOrDefault(x => x.Type == "Id");
     var Id = "";
     if (Idclaim != null)
     {
         Id = Idclaim.Value;
     }
+    var Emailclaim = User.Claims.FirstOrDefault(x => x.Type == "UserName");
+    var Email = "";
+    if (Emailclaim != null)
+    {
+        Email = Emailclaim.Value;
+    }
 }
 
 <input type="hidden" id="UserId" value="@Id" />
 
+<style>
+    .fund-center {
+        min-height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #f6f8fa;
+    }
+    .fund-card {
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        padding: 32px 28px 24px 28px;
+        max-width: 370px;
+        width: 100%;
+        text-align: center;
+    }
+    .fund-title {
+        font-size: 1.7rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: #0d6efd;
+    }
+    .fund-desc {
+        font-size: 1rem;
+        color: #555;
+        margin-bottom: 18px;
+    }
+    .fund-input-group {
+        display: flex;
+        margin-bottom: 16px;
+        gap: 8px;
+        justify-content: center;
+    }
+    .fund-input {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        width: 140px;
+        outline: none;
+        transition: border-color 0.2s;
+    }
+    .fund-input:focus {
+        border-color: #0d6efd;
+    }
+    .fund-btn {
+        padding: 8px 18px;
+        background: #0d6efd;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+    .fund-btn:hover {
+        background: #0b5ed7;
+    }
+    .fund-qr {
+        margin: 18px auto 10px auto;
+        background: #fff;
+        border-radius: 12px;
+        border: 1px solid #eee;
+        padding: 10px;
+        max-width: 220px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .fund-alert {
+        background: #e7f1ff;
+        color: #0d6efd;
+        border-radius: 8px;
+        padding: 8px;
+        font-size: 0.98rem;
+        margin-bottom: 0;
+        margin-top: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    } 
+    @@media (max-width: 480px) {
+        .fund-card { padding: 18px 8px; }
+        .fund-title { font-size: 1.2rem; }
+        .fund-input { width: 90px; font-size: 1rem; }
+        .fund-qr { max-width: 140px; }
+    }
+</style>
 
+<div class="fund-center">
+    <div class="fund-card">
+        <div style="font-size:2.2rem; color:#0d6efd; margin-bottom:6px;">&#128179;</div>
+        <div class="fund-title">Nạp tiền qua QR</div>
+        <div class="fund-desc">Quét mã QR để nạp tiền vào tài khoản</div>
+        <form id="qrForm" onsubmit="return updateQR();">
+            <div class="fund-input-group">
+                <input type="number" id="amountInput" class="fund-input" min="1000" value="200000" required placeholder="Số tiền (>= 1.000)">
+                <button type="submit" class="fund-btn">Tạo mã QR</button>
+            </div>
+        </form>
+        <img id="qrImage" class="fund-qr" src="https://qr.sepay.vn/img?acc=@Model.NumberBank&bank=@Model.Name&amount=200000&des=SEVQR+@Email" alt="QR Code" />
+        <div class="fund-alert">
+            <span style="font-size:1.2rem;">&#9432;</span>
+            Vui lòng nhập đúng số tiền bạn muốn nạp!
+        </div>
+    </div>
+</div>
 
-
-
-
-
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.9/signalr.min.js"></script>
 <script src="~/js/signalrHub.js"></script>
 <script src="~/lib/microsoft-signalr/signalr.js"></script>
+<script>
+    function updateQR() {
+        var amount = document.getElementById('amountInput').value;
+        var img = document.getElementById('qrImage');
+        var acc = '@Model.NumberBank';
+        var bank = '@Model.Name';
+        var NOI_DUNG = 'SEVQR+@Email';
+        img.src = `https://qr.sepay.vn/img?acc=${acc}&bank=${bank}&amount=${amount}&des=${NOI_DUNG}`;
+        return false; // Ngăn submit form reload trang
+    }
+</script>

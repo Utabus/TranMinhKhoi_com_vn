@@ -15,7 +15,7 @@ builder.Services.AddNotyf(config => { config.DurationInSeconds = 3; config.IsDis
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSignalR();
 builder.Services.AddSingleton<IUserIdProvider, QueryStringUserIdProvider>();
-
+builder.Services.AddSingleton<SignalR_Hub>();
 
 builder.Services.AddSession(options =>
 {

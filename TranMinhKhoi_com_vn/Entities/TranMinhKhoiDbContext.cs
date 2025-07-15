@@ -32,7 +32,7 @@ public partial class TranMinhKhoiDbContext : DbContext
     public virtual DbSet<VipAccount> VipAccounts { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Server=DESKTOP-VC92P42\\SQLEXPRESS;Database=TranMinhKhoiDB;Integrated Security=True;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Server=202.92.4.31;Database=abfwnemdhosting_TranminhKhoi;User Id=abfwnemdhosting;Password=6HJ8&6l^psDionrs;MultipleActiveResultSets=true;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
