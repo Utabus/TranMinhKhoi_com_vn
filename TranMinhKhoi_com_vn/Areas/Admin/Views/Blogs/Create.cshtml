@@ -34,10 +34,15 @@
                         <textarea asp-for="Content" id="htmlelementid" style="max-width:auto" class="form-control"></textarea>
                         <span asp-validation-for="Content" class="text-danger"></span>
                     </div>
-                    <div class="mb-3">
+          @*           <div class="mb-3">
                         <label asp-for="Type" class="form-label fw-bold"></label>
                         <input asp-for="Type" class="form-control" required />
                         <span asp-validation-for="Type" class="text-danger"></span>
+                    </div> *@
+                     <div class="mb-3">
+                        <label asp-for="Cdt" class="form-label fw-bold"></label>
+                        <input asp-for="Cdt" class="form-control" required />
+                        <span asp-validation-for="Cdt" class="text-danger"></span>
                     </div>
                    
                     <div class="d-flex justify-content-between align-items-center mt-4">

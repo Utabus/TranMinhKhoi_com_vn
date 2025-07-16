@@ -21,7 +21,7 @@ public partial class Blog
 
     public byte? Status { get; set; }
 
-    public DateTime? Cdt { get; set; }
+    public DateTime? Cdt { get; set; } = DateTime.Now;
 
     public virtual Account? Account { get; set; }
 }

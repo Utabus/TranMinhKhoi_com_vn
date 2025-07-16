@@ -1,6 +1,6 @@
 ﻿@model TranMinhKhoi_com_vn.Entities.Blog
 
-<div class="container">
+<div class="container custom-mt" style="margin-top: 60px;">
     <div id="tabber-BX">
         <div class="LayoutContent-70 fullwidth">
             <div class="BlogPostList">
@@ -9,12 +9,14 @@
                     <div class="blogin-bx">
                         <header class="entry-header">
                             <h3 class="single-title">
-                                It has survived not only five centuries, but also the leap into
-                                electronic typesetting
+                                @(Model?.Title ?? "No Title Available")
                             </h3>
                             <div class="blog-postmeta">
 
-                                <div class="post-date"> <i class="far fa-clock"></i> @Model.Cdt?.ToString("dd-MM-yyyy")</div>
+                                <div class="post-date">
+                                    <i class="far fa-clock"></i> @(@Model?.Cdt?.ToString("dd-MM-yyyy") ?? "N/A"
+                                    )
+                                </div>
                                 <!-- post-date -->
                                 <span class="blog-postcat">
                                     <i class="fa-solid fa-comments"></i> <a href="index.html#respond">No Comments</a>
@@ -26,12 +28,12 @@
                         <div class="entry-content">
                             <div class="blog-post-thumb">
                                 <img fetchpriority="high" width="1024" height="614"
-                                     src="~/contents/Images/Course/@Model.Image"
+                                     src="~/contents/Images/Blog/@Model?.Image"
                                      class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" />
                             </div>
 
-                          
-                            @Html.Raw(@Model.Content)
+
+                            @Html.Raw(@Model?.Content)
 
 
                             <div class="postmeta">

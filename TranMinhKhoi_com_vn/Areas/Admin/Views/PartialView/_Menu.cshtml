@@ -20,10 +20,17 @@
         </li><!-- End Profile Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Blogs" ? "" : "collapsed")"
+            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Blogs" && ViewContext.RouteData.Values["Action"]?.ToString() == "IndexPage"  ? "" : "collapsed")"
+               asp-action="IndexPage" asp-controller="Blogs">
+                <i class="bi bi-person"></i>
+                <span>Blog Page</span>
+            </a>
+        </li><!-- End Profile Page Nav -->
+          <li class="nav-item">
+            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Blogs" && ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "" : "collapsed")"
                 asp-action="Index" asp-controller="Blogs">
                 <i class="bi bi-person"></i>
-                <span>Blog</span>
+                <span>Blog Home</span>
             </a>
         </li><!-- End Profile Page Nav -->
 

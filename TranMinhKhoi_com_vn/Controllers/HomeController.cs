@@ -9,41 +9,41 @@ namespace TranMinhKhoi_com_vn.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly TranMinhKhoiDbContext _tranMinhKhoiDbContext;
+        private readonly TranMinhKhoiDbContext _context;
         public HomeController(ILogger<HomeController> logger ,TranMinhKhoiDbContext tranMinhKhoiDbContext)
         {
             _logger = logger;
-            _tranMinhKhoiDbContext = tranMinhKhoiDbContext;
+            _context = tranMinhKhoiDbContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }
-        public IActionResult Profile()
+        public async Task<IActionResult> Profile()
         {
-            return View();
+            return View(await _context.Blogs.FirstOrDefaultAsync(c => c.Type == "Profile"));
         }
-        public IActionResult Social()
+        public async Task<IActionResult> Social()
         {
-            return View();
+            return View(await _context.Blogs.FirstOrDefaultAsync(c => c.Type == "Social"));
         }
-        public IActionResult Politics()
+        public async Task<IActionResult> Politics()
         {
-            return View();
+            return View(await _context.Blogs.FirstOrDefaultAsync(c => c.Type == "Politics"));
         }
-        public IActionResult Competion()
+        public async Task<IActionResult> Competion()
         {
-            return View();
+            return View(await _context.Blogs.FirstOrDefaultAsync(c => c.Type == "Competion"));
         }
         public async Task<IActionResult> Fund()
         {
-            return View(await _tranMinhKhoiDbContext.KeySePays.FirstOrDefaultAsync());
+            return View(await _context.KeySePays.FirstOrDefaultAsync());
         }
-        public IActionResult StudentLife()
-        {
-            return View();
-        }
+        //public async Task<IActionResult> StudentLife()
+        //{
+        //    return View();
+        //}
 
         public IActionResult Privacy()
         {

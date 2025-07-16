@@ -20,9 +20,14 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
 
 
         // GET: Admin/Blogs
+        public async Task<IActionResult> IndexPage()
+        {
+            var tranMinhKhoiDbContext = _context.Blogs.Include(b => b.Account).Where(x => x.Type != "Blog");
+            return View(await tranMinhKhoiDbContext.ToListAsync());
+        }
         public async Task<IActionResult> Index()
         {
-            var tranMinhKhoiDbContext = _context.Blogs.Include(b => b.Account);
+            var tranMinhKhoiDbContext = _context.Blogs.Include(b => b.Account).Where(x => x.Type == "Blog");
             return View(await tranMinhKhoiDbContext.ToListAsync());
         }
 
@@ -68,11 +73,12 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
             {
                 string extennsion = Path.GetExtension(fAvatar.FileName);
                 image = Utilities.ToUrlFriendly(blog.Title ?? "") + extennsion;
-                blog.Image= await Utilities.UploadFile(fAvatar, @"Blog", image.ToLower());
+                blog.Image = await Utilities.UploadFile(fAvatar, @"Blog", image.ToLower());
             }
             blog.Cdt = DateTime.UtcNow.AddHours(7);
             blog.AccountId = null;
             blog.Status = 1;
+            blog.Type = "Blog";
 
 
             _context.Add(blog);

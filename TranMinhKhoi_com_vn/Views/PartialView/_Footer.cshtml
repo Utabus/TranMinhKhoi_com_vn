@@ -34,12 +34,31 @@
                     <h3>NAVIGATION</h3>
                     <div class="menu-navigation-container">
                         <ul id="menu-navigation" class="menu">
-                            <li id="menu-item-385" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-383 current_page_item menu-item-385"><a href="index.html" aria-current="page">PROFILE</a></li>
-                            <li id="menu-item-386" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-386"><a href="about/index.html">SOCIAL</a></li>
-                            <li id="menu-item-396" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-396"><a href="gallery/index.html">POLITICS</a></li>
-                            <li id="menu-item-396" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-396"><a href="gallery/index.html">COMPETION</a></li>
-                            <li id="menu-item-396" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-396"><a href="gallery/index.html">FUND</a></li>
-                            <li id="menu-item-396" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-396"><a href="gallery/index.html">STUDENT LIFE</a></li>
+                            <li id="menu-item-385"
+                                class="menu-item menu-item-type-post_type menu-item-object-page @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Profile" ? "menu-item-home current-menu-item page_item page-item-383 current_page_item" : "") menu-item-385">
+                                <a asp-action="Profile" asp-controller="Home" aria-current="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Profile" ? "page" : "")">PROFILE</a>
+                            </li>
+                            <li id="menu-item-386"
+                                class="menu-item menu-item-type-post_type menu-item-object-page @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Social" ? "menu-item-home current-menu-item page_item page-item-383 current_page_item" : "") menu-item-386">
+                                <a asp-action="Social" asp-controller="Home"
+                                   aria-current="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Social" ? "page" : "")">SOCIAL</a>
+                            </li>
+                            <li id="menu-item-396"
+                                class="menu-item menu-item-type-post_type menu-item-object-page @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Politics" ? "menu-item-home current-menu-item page_item page-item-383 current_page_item" : "") menu-item-396">
+                                <a asp-action="Politics" asp-controller="Home" aria-current="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Politics" ? "page" : "")">POLITICS</a>
+                            </li>
+                            <li id="menu-item-396"
+                                class="menu-item menu-item-type-post_type menu-item-object-page @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Competion" ? "menu-item-home current-menu-item page_item page-item-383 current_page_item" : "") menu-item-396">
+                                <a asp-action="Competion" asp-controller="Home" aria-current="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Competion" ? "page" : "")">COMPETION</a>
+                            </li>
+                            <li id="menu-item-396"
+                                class="menu-item menu-item-type-post_type menu-item-object-page @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Fund" ? "menu-item-home current-menu-item page_item page-item-383 current_page_item" : "") menu-item-396">
+                                <a asp-action="Fund" asp-controller="Home" aria-current="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Fund" ? "page" : "")">FUND</a>
+                            </li>
+                            <li id="menu-item-396"
+                                class="menu-item menu-item-type-post_type menu-item-object-page @(ViewContext.RouteData.Values["Controller"]?.ToString() == "StudentLife" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "menu-item-home current-menu-item page_item page-item-383 current_page_item" : "") menu-item-396">
+                                <a asp-action="Index" asp-controller="StudentLife" aria-current="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "StudentLife" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "page" : "")">STUDENT LIFE</a>
+                            </li>
                         </ul>
                     </div>
                 </div>

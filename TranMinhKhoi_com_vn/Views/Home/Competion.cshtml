@@ -1,5 +1,56 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model TranMinhKhoi_com_vn.Entities.Blog
+
+<div class="container custom-mt" style="margin-top: 60px;">
+    <div id="tabber-BX">
+        <div class="LayoutContent-70 fullwidth">
+            <div class="BlogPostList">
+                <article id="post-462"
+                         class="single-post post-462 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+                    <div class="blogin-bx">
+                        <header class="entry-header">
+                            <h3 class="single-title">
+                                @(Model?.Title ?? "No Title Available")
+                            </h3>
+                            <div class="blog-postmeta">
+
+                                <div class="post-date">
+                                    <i class="far fa-clock"></i> @(@Model?.Cdt?.ToString("dd-MM-yyyy") ?? "N/A"
+                                    )
+                                </div>
+                                <!-- post-date -->
+                                <span class="blog-postcat">
+                                    <i class="fa-solid fa-comments"></i> <a href="index.html#respond">No Comments</a>
+                                </span>
+
+                            </div><!-- .blog-postmeta -->
+                        </header><!-- .entry-header -->
+
+                        <div class="entry-content">
+                            <div class="blog-post-thumb">
+                                <img fetchpriority="high" width="1024" height="614"
+                                     src="~/contents/Images/Blog/@Model?.Image"
+                                     class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" />
+                            </div>
+
+
+                            @Html.Raw(@Model?.Content)
+
+
+                            <div class="postmeta">
+                                <div class="post-tags"> </div>
+                                <div class="clear"></div>
+                            </div><!-- postmeta -->
+                        </div><!-- .entry-content -->
+                        <footer class="entry-meta">
+                        </footer><!-- .entry-meta -->
+                    </div><!-- .blogin-bx-->
+                </article>
+            </div><!-- .BlogPostList-->
+            <div class="clear"></div>
+
+
+        </div><!-- .LayoutContent-70-->
+
+        <div class="clear"></div>
+    </div><!-- #tabber-BX -->
+</div><!-- container -->
