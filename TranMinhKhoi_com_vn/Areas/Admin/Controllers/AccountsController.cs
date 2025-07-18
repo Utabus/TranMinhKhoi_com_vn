@@ -1,24 +1,135 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TranMinhKhoi_com_vn.Entities;
 using TranMinhKhoi_com_vn.Extension;
 using TranMinhKhoi_com_vn.Helper;
+using MailKit.Net.Smtp;
+using MailKit.Security;
+using MimeKit;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 
 namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
 {
     [Area("Admin")]
+
     public class AccountsController : BaseController
     {
         public AccountsController(TranMinhKhoiDbContext context, INotyfService notyfService, IConfiguration configuration) : base(context, notyfService, configuration)
         {
         }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(string user, string pass)
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            var password = pass.ToMD5();
+            var account = await _context.Accounts.FirstOrDefaultAsync(u => u.UserName == user && u.Password == password);
+
+            if (account == null)
+            {
+                _notyfService.Error("Thông tin đăng nhập không chính xác");
+                return RedirectToAction("Login", "Account");
+            }
+            if (account?.RoleId == 2)
+            {
+                _notyfService.Error("Tài khoản của bạn là tài khoản học viên");
+                return RedirectToAction("Login", "Account");
+            }
+            if (account?.Status == 2)
+            {
+                _notyfService.Error("Tài khoản đã bị khóa");
+                return RedirectToAction("Login", "Account");
+            }
+            if (account != null)
+            {
+
+                var random = new Random();
+                var token = random.Next(10000000, 99999999).ToString();
+                account.ResetToken = token;
+                account.ResetTokenExpiry = DateTime.UtcNow.AddHours(7).AddMinutes(10);
+                await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("OTP", token);
+                HttpContext.Session.SetString("Email", account.Email ?? "");
+                HttpContext.Session.SetString("ResetTokenExpiry", account.ResetTokenExpiry.ToString() ?? "");
+                var email = new MimeMessage();
+                email.From.Add(new MailboxAddress("AdminDotnet", "admin@example.com"));
+                email.To.Add(MailboxAddress.Parse($"{account.Email}"));
+                email.Subject = "Mã xác thực OTP";
+
+                email.Body = new TextPart("plain")
+                {
+                    Text = $"Mã xác thực OTP của bạn là : {token} OTP có thời hạn là 10 phút\n" +
+                    $"Vui lòng nhập mã OTP để đăng nhập vào hệ thống\n" +
+                    $"Nếu bạn không yêu cầu đăng nhập, vui lòng bỏ qua email này\n" +
+                    $"Trân trọng\n" +
+                    $"TranMinhKhoi.com.vn"
+                };
+                using var smtp = new SmtpClient();
+                smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
+                smtp.Authenticate("khangchannel19@gmail.com", "jnal cnyl mlit izco");
+                smtp.Send(email);
+                smtp.Disconnect(true);
+                return RedirectToAction(nameof(LoginOTP));
+            }
+            else
+            {
+                _notyfService.Warning("Tên đăng nhập hoặc mật khẩu không đúng");
+
+                return RedirectToAction(nameof(Login));
+            }
+        }
+
+        public IActionResult LoginOTP()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> LoginOTP(string otp)
+        {
+            var resetToken = HttpContext.Session.GetString("OTP");
+            var resetTokenExpiry = HttpContext.Session.GetString("ResetTokenExpiry");
+            var email = HttpContext.Session.GetString("Email");
+
+            if (!DateTime.TryParse(resetTokenExpiry, out var expiry) || expiry < DateTime.UtcNow)
+            {
+                _notyfService.Error("Token đã hết hạn. Vui lòng gửi lại yêu cầu đặt lại mật khẩu.");
+                return View();
+            }
+
+            var user = await _context.Accounts.Include(x=>x.Role).FirstOrDefaultAsync(u => u.Email == email);
+            if (user != null && resetToken == otp.Trim())
+            {
+
+                List<Claim> claims = new List<Claim>()
+               {
+                   new Claim(ClaimTypes.Name, user.FullName??""),
+                   new Claim("UserName" , user.UserName ?? ""),
+                new Claim(ClaimTypes.Role , user.Role?.Name ?? ""),
+                   new Claim("Id" , user.Id.ToString()),
+                    new Claim("Avartar", "/contents/Images/User/" + user.Avartar)
+               };
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var principal = new ClaimsPrincipal(identity);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                _notyfService.Success("Đăng nhập thành công");
+                return RedirectToAction("Index", "Home");
+            }
+
+            _notyfService.Error("Token không hợp lệ .");
+
+            return View();
+        }
+
+
 
         // GET: Admin/Accounts
         public async Task<IActionResult> Index()
@@ -49,7 +160,7 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
         // GET: Admin/Accounts/Create
         public IActionResult Create()
         {
-           
+
             return View();
         }
 
@@ -145,7 +256,7 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
                 nhanvien.Gender = account.Gender;
                 nhanvien.Status = account.Status;
                 nhanvien.UserName = account.UserName;
-                
+
                 _notyfService.Success("Sửa thành công!");
                 await _context.SaveChangesAsync();
             }

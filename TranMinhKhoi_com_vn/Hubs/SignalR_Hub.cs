@@ -9,9 +9,9 @@ namespace TranMinhKhoi_com_vn.Hubs
         {
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
-        public async Task SendPrivateMessage(string userId, bool message)
+        public async Task SendPrivateMessage(string userId, bool message,decimal total)
         {
-            await Clients.User(userId).SendAsync("ReceivePrivateMessage", message);
+            await Clients.User(userId).SendAsync("ReceivePrivateMessage", message, total);
         }
         public override async Task OnConnectedAsync()
         {

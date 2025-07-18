@@ -27,8 +27,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.Name = "TranMinhKhoi_com_vn.Cookies";
         options.ExpireTimeSpan = TimeSpan.FromHours(8);
         options.SlidingExpiration = true;
-        options.LoginPath = "/Admin/Account/Login";
-        options.AccessDeniedPath = "/Admin/Account/Login";
+        options.LoginPath = "/Admin/Accounts/Login";
+        options.AccessDeniedPath = "/Admin/Accounts/Login";
         options.Cookie.HttpOnly = true;
         options.Cookie.IsEssential = true;
 

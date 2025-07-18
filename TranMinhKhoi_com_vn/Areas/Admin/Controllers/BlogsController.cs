@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using TranMinhKhoi_com_vn.Helper;
 namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class BlogsController : BaseController
     {
         public BlogsController(TranMinhKhoiDbContext context, INotyfService notyfService, IConfiguration configuration) : base(context, notyfService, configuration)
@@ -22,12 +24,28 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
         // GET: Admin/Blogs
         public async Task<IActionResult> IndexPage()
         {
-            var tranMinhKhoiDbContext = _context.Blogs.Include(b => b.Account).Where(x => x.Type != "Blog");
+            var tranMinhKhoiDbContext = _context.Blogs.Include(b => b.Account).Where(x => x.Type != "Blog" && x.Type != "Social" && x.Type != "Politics" && x.Type != "Competion");
             return View(await tranMinhKhoiDbContext.ToListAsync());
         }
         public async Task<IActionResult> Index()
         {
             var tranMinhKhoiDbContext = _context.Blogs.Include(b => b.Account).Where(x => x.Type == "Blog");
+            return View(await tranMinhKhoiDbContext.ToListAsync());
+        }
+
+        public async Task<IActionResult> IndexSocial()
+        {
+            var tranMinhKhoiDbContext = _context.Blogs.Include(b => b.Account).Where(x => x.Type == "Social");
+            return View(await tranMinhKhoiDbContext.ToListAsync());
+        }
+        public async Task<IActionResult> IndexPolitics()
+        {
+            var tranMinhKhoiDbContext = _context.Blogs.Include(b => b.Account).Where(x => x.Type == "Politics");
+            return View(await tranMinhKhoiDbContext.ToListAsync());
+        }
+        public async Task<IActionResult> IndexCompetion()
+        {
+            var tranMinhKhoiDbContext = _context.Blogs.Include(b => b.Account).Where(x => x.Type == "Competion");
             return View(await tranMinhKhoiDbContext.ToListAsync());
         }
 
@@ -78,12 +96,32 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
             blog.Cdt = DateTime.UtcNow.AddHours(7);
             blog.AccountId = null;
             blog.Status = 1;
-            blog.Type = "Blog";
-
-
             _context.Add(blog);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            if (blog.Type == "Blog")
+            {
+                return RedirectToAction(nameof(Index));
+
+            }
+            else if (blog.Type == "Social")
+            {
+                return RedirectToAction(nameof(IndexSocial));
+            }
+            else if (blog.Type == "Politics")
+            {
+                return RedirectToAction(nameof(IndexPolitics));
+
+            }
+            else if (blog.Type == "Competion")
+            {
+                return RedirectToAction(nameof(IndexCompetion));
+
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // GET: Admin/Blogs/Edit/5
@@ -111,39 +149,61 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
+                if (fAvatar != null)
                 {
-                    if (fAvatar != null)
-                    {
-                        string extennsion = Path.GetExtension(fAvatar.FileName);
-                        image = Utilities.ToUrlFriendly(blog.Title ?? "") + extennsion;
-                        blog.Image = await Utilities.UploadFile(fAvatar, @"Blog", image.ToLower());
-                    }
-                    else
-                    {
-                        blog.Image = _context.Blogs.Where(x => x.Id == id).Select(x => x.Image).FirstOrDefault();
-                    }
+                    string extennsion = Path.GetExtension(fAvatar.FileName);
+                    image = Utilities.ToUrlFriendly(blog.Title ?? "") + extennsion;
+                    blog.Image = await Utilities.UploadFile(fAvatar, @"Blog", image.ToLower());
+                }
+                else
+                {
+                    blog.Image = _context.Blogs.Where(x => x.Id == id).Select(x => x.Image).FirstOrDefault();
+                }
 
-                    _context.Update(blog);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
+                _context.Update(blog);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!BlogExists(blog.Id))
                 {
-                    if (!BlogExists(blog.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return NotFound();
                 }
+                else
+                {
+                    throw;
+                }
+            }
+            if (blog.Type == "StudentLife-2" || blog.Type == "StudentLife-1" || blog.Type == "Profile")
+            {
+                return RedirectToAction(nameof(IndexPage));
+
+            }
+            else if (blog.Type == "Blog")
+            {
+                return RedirectToAction(nameof(Index));
+
+            }
+            else if (blog.Type == "Social")
+            {
+                return RedirectToAction(nameof(IndexSocial));
+            }
+            else if (blog.Type == "Politics")
+            {
+                return RedirectToAction(nameof(IndexPolitics));
+
+            }
+            else if (blog.Type == "Competion")
+            {
+                return RedirectToAction(nameof(IndexCompetion));
+
+            }
+            else
+            {
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AccountId"] = new SelectList(_context.Accounts, "Id", "Id", blog.AccountId);
-            return View(blog);
         }
 
         // GET: Admin/Blogs/Delete/5
@@ -177,7 +237,29 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (blog.Type == "Blog")
+            {
+                return RedirectToAction(nameof(Index));
+
+            }
+            else if (blog.Type == "Social")
+            {
+                return RedirectToAction(nameof(IndexSocial));
+            }
+            else if (blog.Type == "Politics")
+            {
+                return RedirectToAction(nameof(IndexPolitics));
+
+            }
+            else if (blog.Type == "Competion")
+            {
+                return RedirectToAction(nameof(IndexCompetion));
+
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         private bool BlogExists(int id)

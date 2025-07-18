@@ -92,7 +92,14 @@ namespace TranMinhKhoi_com_vn.Controllers
         }
         public IActionResult Profile()
         {
-            return View();
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
+            if (int.TryParse(userIdClaim, out int userId))
+            {
+                var account = _context.Accounts.FirstOrDefault(u => u.Id == userId);
+                if (account != null)
+                    return View(account);
+            }
+            return RedirectToAction("Login", "Account");
         }
         public IActionResult LoginOTP()
         {
@@ -111,14 +118,15 @@ namespace TranMinhKhoi_com_vn.Controllers
                 return View();
             }
 
-            var user = await _context.Accounts.FirstOrDefaultAsync(u => u.Email == email);
-            if (user != null && resetToken == otp)
+            var user = await _context.Accounts.Include(x => x.Role).FirstOrDefaultAsync(u => u.Email == email);
+            if (user != null && resetToken == otp.Trim())
             {
 
                 List<Claim> claims = new List<Claim>()
                {
                    new Claim(ClaimTypes.Name, user.FullName??""),
                    new Claim("UserName" , user.UserName ?? ""),
+                new Claim(ClaimTypes.Role , user.Role?.Name ?? ""),
                    new Claim("Id" , user.Id.ToString()),
                     new Claim("Avartar", "/contents/Images/User/" + user.Avartar)
                };
@@ -130,7 +138,7 @@ namespace TranMinhKhoi_com_vn.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            _notyfService.Error("Token không hợp lệ hoặc email không tồn tại.");
+            _notyfService.Error("Token không hợp lệ .");
 
             return View();
         }

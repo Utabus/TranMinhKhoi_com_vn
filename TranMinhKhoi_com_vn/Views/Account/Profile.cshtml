@@ -1,5 +1,77 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model TranMinhKhoi_com_vn.Entities.Account
+@section Scripts {
+    <link href="~/css/HoSo.css" rel="stylesheet" />
 }
+@{
+    var mssvClaim = User.Claims.FirstOrDefault(c => c.Type == "MSSV");
+    var emailClaim = User.Claims.FirstOrDefault(c => c.Type == "Email");
+    var mssv_ = mssvClaim != null ? mssvClaim.Value : "";
+    var email = emailClaim != null ? emailClaim.Value : "";
+    var AvartarClaim = User.Claims.FirstOrDefault(c => c.Type == "Avartar");
+    var Avartar = AvartarClaim != null ? AvartarClaim.Value : "";
+}
+<div class="container1 custom-mt" style="margin-top: 84px;">
+    <div class="profile-header center-all">
+        <div class="avatar-box">
+            <div class="avatar-circle">
+                <img src="@Avartar" alt="Avatar" class="avatar" />
+            </div>
+        </div>
+        <div class="profile-info center-all">
+            <h1>@Model.FullName</h1>
+        </div>
+    </div>
+    <section class="personal-information center-all">
+        <h2>Thông tin cá nhân</h2>
+        <ul>
+            <li><i class="fa fa-user fa-lg"></i> <strong>Họ tên:</strong> @Model.FullName</li>
+            <li><i class="fa fa-envelope fa-lg"></i> <strong>Email:</strong> @Model.Email</li>
+              <li><i class="fa fa-coins fa-lg"></i> <strong>Balance :</strong> @(Model.Coin.HasValue ? Model.Coin.Value.ToString("N0") : "0")</li>
+        </ul>
+        <div class="center-btn">
+            <button type="button" class="btn btn-info btn-round" data-toggle="modal" data-target="#resetModal">
+                <i class="fa fa-key fa-lg"></i> Đổi mật khẩu
+            </button>
+        </div>
+
+         <div class="center-btn">
+            <a type="button" class="btn btn-info btn-round" asp-action="Fund" asp-controller="Home">
+                <i class="fa fa-coins fa-lg"></i> Nạp tiền
+            </a>
+        </div>
+        <div class="modal fade" id="resetModal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                        <button style="color:black" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-title text-center">
+                            <h3 style="color:black">Đổi mật khẩu</h3>
+                        </div>
+                        <div class="d-flex flex-column text-center" ng-app="myDoiMatKhauApp" ng-controller="doimatkhaujs">
+                            <form ng-submit="doimatkhau()">
+                                <div class="form-group">
+                                    <input type="password" class="form-control" ng-model="currentPassword" placeholder="Mật khẩu">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" ng-model="newPassword" placeholder="Mật khẩu mới">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" ng-model="confirmPassword" placeholder="Xác nhận mật khẩu">
+                                </div>
+                                <button type="button" class="btn btn-info btn-block btn-round" ng-click="doimatkhau(); showModal = false;" data-dismiss="modal">Đổi mật khẩu</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">  
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />

@@ -1,4 +1,11 @@
-﻿<div id="masthead" class="site-header ">
+﻿@{
+
+    var userName = User.Identity?.Name;
+    var lastWord = userName?.Split(' ').Last();
+}
+
+
+<div id="masthead" class="site-header ">
 
     <div class="LgoBX">
 
@@ -97,29 +104,34 @@
                                     class="menu-item menu-item-type-post_type menu-item-object-page @(ViewContext.RouteData.Values["Controller"]?.ToString() == "StudentLife" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "menu-item-home current-menu-item page_item page-item-383 current_page_item" : "") menu-item-396">
                                     <a asp-action="Index" asp-controller="StudentLife" aria-current="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "StudentLife" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "page" : "")">STUDENT LIFE</a>
                                 </li>
-                                <li id="menu-item-login"
-                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-login">
-                                    <a asp-action="Login" asp-controller="Account" 
-                                       style="color:white; margin-left:10px;">LOGIN</a>
-                                </li>
-                                @*    <li id="menu-item-387"
-                                class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-387">
-                                <a >Nguyễn Văn    </a>
-                                <ul class="sub-menu">
-                                <li id="menu-item-388"
-                                class="menu-item menu-item-type-post_type menu-item-object-page menu-item-388">
-                                <a href="blog-full-width/index.html">Blog Full Width</a></li>
-                                <li id="menu-item-389"
-                                class="menu-item menu-item-type-post_type menu-item-object-page menu-item-389">
-                                <a href="blog-left-sidebar/index.html">Blog Left Sidebar</a></li>
-                                <li id="menu-item-391"
-                                class="menu-item menu-item-type-post_type menu-item-object-page menu-item-391">
-                                <a href="blog-right-sidebar/index.html">Blog Right Sidebar</a></li>
-                                <li id="menu-item-390"
-                                class="menu-item menu-item-type-post_type menu-item-object-page menu-item-390">
-                                <a href="blog-no-sidebar/index.html">Blog No Sidebar</a></li>
-                                </ul>
-                                </li> *@
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li id="menu-item-387"
+                                        class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-387">
+                                        <a style="color:white">Hi @lastWord  </a>
+                                        <ul class="sub-menu">
+                                            <li id="menu-item-388"
+                                                class="menu-item menu-item-type-post_type menu-item-object-page menu-item-388">
+                                                <a asp-controller="Account" asp-action="Profile">Profile</a>
+                                            </li>
+                                          <li id="menu-item-388"
+                                                class="menu-item menu-item-type-post_type menu-item-object-page menu-item-388">
+                                                <a asp-controller="Account" asp-action="Logout">LogOut</a>
+                                            </li>
+                                          
+                                        </ul>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li id="menu-item-login"
+                                        class="menu-item menu-item-type-post_type menu-item-object-page menu-item-login">
+                                        <a asp-action="Login" asp-controller="Account"
+                                           style="color:white; margin-left:10px;">LOGIN</a>
+                                    </li>
+
+                                }
+
                             </ul>
                         </div>
                     </nav><!-- #main-navigation -->

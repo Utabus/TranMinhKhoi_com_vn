@@ -1,0 +1,63 @@
+﻿@model IEnumerable< TranMinhKhoi_com_vn.Entities.Blog>
+
+
+<div class="container custom-mt" style="margin-top: 60px;">
+    <div id="tabber-BX">
+        <div class="LayoutContent-70 nosidebar">
+            <header>
+                <h1 class="entry-title">Blog @ViewContext.RouteData.Values["Action"]?.ToString() New </h1>
+            </header>
+            @foreach (var item in Model)
+            {
+                <div class="BlogPostList">
+                    <article id="post-464"
+                             class="post-464 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+
+                        <div class="hg-blog-img">
+                            <a asp-action="CoursesDetail" asp-route-id="@item.Id">
+                                <img fetchpriority="high" width="1024" height="614"
+                                     src="~/contents/Images/Blog/@item.Image"
+                                     class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" />
+                            </a>
+                        </div>
+                        <header class="entry-header">
+                            <div class="blog-postmeta">
+
+                                <div class="post-date"> <i class="far fa-clock"></i> @item.Cdt?.ToString("dd-MM-yyyy")</div><!-- post-date -->
+                                <span class="blog-postcat">
+                                    <i class="fa-solid fa-comments"></i> <a href="#">
+                                        No
+                                        Comments
+                                    </a>
+                                </span>
+
+                            </div><!-- .blog-postmeta -->
+                            <h3>
+                                <a asp-action="BlogDetails" asp-route-id="@item.Id">
+                                    @item.Title
+                                </a>
+                            </h3>
+                        </header><!-- .entry-header -->
+
+                        <div class="entry-summary">
+                            <p>@item.Description</p>
+                            <a class="morebutton"
+                               asp-action="BlogDetails" asp-route-id="@item.Id">
+                                Read
+                                More
+                            </a>
+
+                        </div><!-- .entry-summary -->
+
+                        <div class="clear"></div>
+                    </article><!-- #post-## -->
+                </div>
+
+            }
+
+
+
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

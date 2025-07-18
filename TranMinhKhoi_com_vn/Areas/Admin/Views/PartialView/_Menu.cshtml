@@ -26,6 +26,8 @@
                 <span>Blog Page</span>
             </a>
         </li><!-- End Profile Page Nav -->
+
+
           <li class="nav-item">
             <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Blogs" && ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "" : "collapsed")"
                 asp-action="Index" asp-controller="Blogs">
@@ -33,6 +35,30 @@
                 <span>Blog Home</span>
             </a>
         </li><!-- End Profile Page Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Blogs" && ViewContext.RouteData.Values["Action"]?.ToString() == "IndexSocial" ? "" : "collapsed")"
+               asp-action="IndexSocial" asp-controller="Blogs">
+                <i class="bi bi-person"></i>
+                <span>Blog Social</span>
+            </a>
+        </li><!-- End Profile Page Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Blogs" && ViewContext.RouteData.Values["Action"]?.ToString() == "IndexPolitics" ? "" : "collapsed")"
+               asp-action="IndexPolitics" asp-controller="Blogs">
+                <i class="bi bi-person"></i>
+                <span>Blog Politics</span>
+            </a>
+        </li><!-- End Profile Page Nav -->
+        <li class="nav-item">
+            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Blogs" && ViewContext.RouteData.Values["Action"]?.ToString() == "IndexCompetion" ? "" : "collapsed")"
+               asp-action="IndexCompetion" asp-controller="Blogs">
+                <i class="bi bi-person"></i>
+                <span>Blog Competion</span>
+            </a>
+        </li><!-- End Profile Page Nav -->
+
 
         <li class="nav-item">
             <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Courses" ? "" : "collapsed")"

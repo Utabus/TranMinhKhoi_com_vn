@@ -25,20 +25,24 @@ namespace TranMinhKhoi_com_vn.Controllers
 
         [HttpPost("transaction")]
         [ApiKeyAuth]
-        public IActionResult ReceiveTransaction([FromBody] JsonElement json)
+        public async Task<IActionResult> ReceiveTransaction([FromBody] JsonElement json)
         {
             var transaction = JsonSerializer.Deserialize<SePayTransaction>(json.GetRawText());
-            var Email = transaction.description?.Split(" ")[1];
+            var UserName = transaction.content?.Split(" ")[1];
             if (transaction == null || string.IsNullOrEmpty(transaction.gateway) || transaction.transferAmount <= 0)
             {
                 return BadRequest("Dữ liệu giao dịch không hợp lệ.");
             }
-            var account = _context.Accounts.FirstOrDefault(a => a.Email == Email);
+            var account = _context.Accounts.FirstOrDefault(a => a.UserName == UserName);
             if (account == null)
             {
-                return NotFound($"Không tìm thấy tài khoản với email {Email}");
+                return NotFound($"Không tìm thấy tài khoản với UserName {UserName}");
             }
-            account.Coin +=transaction.transferAmount;
+            if (account.Coin !=null)
+                account.Coin += transaction.transferAmount;
+            else
+                account.Coin = transaction.transferAmount;
+
             _context.Accounts.Update(account);
             var history = new Fund
             {
@@ -52,7 +56,7 @@ namespace TranMinhKhoi_com_vn.Controllers
             _context.Funds.Add(history);
             _context.SaveChanges();
 
-            _signalR_Hub.SendPrivateMessage(account.Id.ToString(), true).Wait();
+          await  _signalR_Hub.SendPrivateMessage(account.Id.ToString(), true,transaction.transferAmount);
             return Ok();
         }
     }

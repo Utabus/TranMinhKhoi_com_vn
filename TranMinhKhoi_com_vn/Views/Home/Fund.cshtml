@@ -1,4 +1,4 @@
-﻿@model TranMinhKhoi_com_vn.Entities.KeySePay
+﻿@model TranMinhKhoi_com_vn.Models.FundModel
 
 @{
     var Idclaim = User.Claims.FirstOrDefault(x => x.Type == "Id");
@@ -118,13 +118,20 @@
                 <button type="submit" class="fund-btn">Tạo mã QR</button>
             </div>
         </form>
-        <img id="qrImage" class="fund-qr" src="https://qr.sepay.vn/img?acc=@Model.NumberBank&bank=@Model.Name&amount=200000&des=SEVQR+@Email" alt="QR Code" />
+        <img id="qrImage" class="fund-qr" src="https://qr.sepay.vn/img?acc=@Model.KeySePay.NumberBank&bank=@Model.KeySePay.Name&amount=200000&des=SEVQR+@Email" alt="QR Code" />
         <div class="fund-alert">
             <span style="font-size:1.2rem;">&#9432;</span>
             Vui lòng nhập đúng số tiền bạn muốn nạp!
         </div>
+        <i class="fa fa-coins fa-lg"></i>
+        <strong>Balance :</strong>
+        <span id="balanceAmount">
+            @(Model.Account.Coin.HasValue ? Model.Account.Coin.Value.ToString("N0") : "0")
+        </span> ₫
+
     </div>
 </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.9/signalr.min.js"></script>
@@ -134,8 +141,8 @@
     function updateQR() {
         var amount = document.getElementById('amountInput').value;
         var img = document.getElementById('qrImage');
-        var acc = '@Model.NumberBank';
-        var bank = '@Model.Name';
+        var acc = '@Model.KeySePay.NumberBank';
+        var bank = '@Model.KeySePay.Name';
         var NOI_DUNG = 'SEVQR+@Email';
         img.src = `https://qr.sepay.vn/img?acc=${acc}&bank=${bank}&amount=${amount}&des=${NOI_DUNG}`;
         return false; // Ngăn submit form reload trang
