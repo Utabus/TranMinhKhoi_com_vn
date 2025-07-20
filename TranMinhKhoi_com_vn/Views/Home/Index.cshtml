@@ -1,4 +1,17 @@
-﻿
+﻿@model IEnumerable<TranMinhKhoi_com_vn.Entities.Blog>
+
+
+<style>
+
+    .blog-image {
+    width: 180px;
+    height: 180px;
+    text-align: center;
+    margin: auto;
+}
+
+
+</style>
 
 <div class="El-Full-width">
     <div class="post-383 page type-page status-publish hentry" id="post-383">
@@ -8,9 +21,9 @@
             <div data-elementor-type="wp-page" data-elementor-id="383" class="elementor elementor-383">
 
                 <div class="elementor-element elementor-element-547c0c1 e-flex e-con-boxed e-con e-parent" data-id="547c0c1" data-element_type="container">
-                    
+
                     <div class="e-con-inner">
-         
+
                         <div class="elementor-element elementor-element-57edfc02 e-con-full section1_box e-flex e-con e-child" data-id="57edfc02" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
                             <div class="elementor-element elementor-element-5a0d1f29 elementor-widget elementor-widget-image" data-id="5a0d1f29" data-element_type="widget" data-widget_type="image.default">
                                 <div class="elementor-widget-container">
@@ -200,7 +213,7 @@
                         </div>
                     </div>
                 </div>
-                
+
 
 
 
@@ -218,42 +231,33 @@
                         </div>
                         <div class="elementor-element elementor-element-7480408c e-flex e-con-boxed e-con e-child" data-id="7480408c" data-element_type="container">
                             <div class="e-con-inner">
-                                <div class="elementor-element elementor-element-43a31f2c e-con-full work_box e-flex e-con e-child" data-id="43a31f2c" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
-                                    <div class="elementor-element elementor-element-7d7d4396 process_box_number elementor-widget elementor-widget-heading" data-id="7d7d4396" data-element_type="widget" data-widget_type="heading.default">
-                                        <div class="elementor-widget-container">
-                                            <h2 class="elementor-heading-title elementor-size-default">01</h2>
+
+                                @foreach (var item in Model)
+                                {
+                                    <div class="elementor-element elementor-element-43a31f2c e-con-full work_box e-flex e-con e-child" data-id="43a31f2c" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
+                                        <div class="elementor-element elementor-element-7d7d4396 process_box_number elementor-widget elementor-widget-heading" data-id="7d7d4396" data-element_type="widget" data-widget_type="heading.default">
                                         </div>
-                                    </div>
-                                    <div class="elementor-element elementor-element-60a15094 process_box elementor-position-top elementor-widget elementor-widget-image-box" data-id="60a15094" data-element_type="widget" data-widget_type="image-box.default">
-                                        <div class="elementor-widget-container">
-                                            <div class="elementor-image-box-wrapper"><figure class="elementor-image-box-img"><img loading="lazy" decoding="async" width="70" height="71" src="~/user/wp-content/uploads/sites/8/2025/04/image1.png" class="attachment-full size-full wp-image-520" alt="" /></figure><div class="elementor-image-box-content"><h3 class="elementor-image-box-title">Consult with Team</h3><p class="elementor-image-box-description">Aendrerit eu ipsumunc eleifend nulla tortoridie vehicul quamac ulis at. Morbi auctor.</p></div></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="elementor-element elementor-element-75611029 e-con-full work_box e-flex e-con e-child" data-id="75611029" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
-                                    <div class="elementor-element elementor-element-244e4d84 process_box_number elementor-widget elementor-widget-heading" data-id="244e4d84" data-element_type="widget" data-widget_type="heading.default">
-                                        <div class="elementor-widget-container">
-                                            <h2 class="elementor-heading-title elementor-size-default">02</h2>
-                                        </div>
-                                    </div>
-                                    <div class="elementor-element elementor-element-6c75a6b5 process_box elementor-position-top elementor-widget elementor-widget-image-box" data-id="6c75a6b5" data-element_type="widget" data-widget_type="image-box.default">
-                                        <div class="elementor-widget-container">
-                                            <div class="elementor-image-box-wrapper"><figure class="elementor-image-box-img"><img loading="lazy" decoding="async" width="70" height="71" src="~/user/wp-content/uploads/sites/8/2025/04/image2-1.png" class="attachment-full size-full wp-image-521" alt="" /></figure><div class="elementor-image-box-content"><h3 class="elementor-image-box-title">Make A Plan</h3><p class="elementor-image-box-description">Aendrerit eu ipsumunc eleifend nulla tortoridie vehicul quamac ulis at. Morbi auctor.</p></div></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="elementor-element elementor-element-e2473eb e-con-full work_box e-flex e-con e-child" data-id="e2473eb" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
-                                    <div class="elementor-element elementor-element-4ca9d6a5 process_box_number elementor-widget elementor-widget-heading" data-id="4ca9d6a5" data-element_type="widget" data-widget_type="heading.default">
-                                        <div class="elementor-widget-container">
-                                            <h2 class="elementor-heading-title elementor-size-default">03</h2>
-                                        </div>
-                                    </div>
-                                    <div class="elementor-element elementor-element-231c33d3 process_box elementor-position-top elementor-widget elementor-widget-image-box" data-id="231c33d3" data-element_type="widget" data-widget_type="image-box.default">
-                                        <div class="elementor-widget-container">
-                                            <div class="elementor-image-box-wrapper"><figure class="elementor-image-box-img"><img loading="lazy" decoding="async" width="70" height="71" src="~/user/wp-content/uploads/sites/8/2025/04/image3.png" class="attachment-full size-full wp-image-522" alt="" /></figure><div class="elementor-image-box-content"><h3 class="elementor-image-box-title">Develop & Enjoy</h3><p class="elementor-image-box-description">Aendrerit eu ipsumunc eleifend nulla tortoridie vehicul quamac ulis at. Morbi auctor.</p></div></div>
-                                        </div>
-                                    </div>
-                                </div>
+                                        <div class="elementor-element elementor-element-60a15094 process_box elementor-position-top elementor-widget elementor-widget-image-box" data-id="60a15094" data-element_type="widget" data-widget_type="image-box.default">
+                                            <div class="elementor-widget-container">
+                                                <div class="elementor-image-box-wrapper">
+                                                    <div class="blog-image">
+                                                        <img style="border-radius: 10%;"  width="170" height="170" src="~/contents/Images/Blog/@item.Image"  alt="" />
+                                                    </div>
+                                                    
+                                                    <div class="elementor-image-box-content">
+                                                        <h3 class="elementor-image-box-title">@item.Title</h3>
+                                                        <p class="elementor-image-box-description">@item.Description</p>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                    </div> 
+
+                                }
+
+
+
+
                             </div>
                         </div>
                     </div>

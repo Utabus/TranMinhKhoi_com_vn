@@ -18,7 +18,29 @@ namespace TranMinhKhoi_com_vn.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View();
+            //List<Blog> blogs = new List<Blog>();
+            //var latestBlog = await _context.Blogs
+            //    .Where(c => c.Type == "Social")
+            //    .OrderByDescending(x => x.Cdt)
+            //    .FirstOrDefaultAsync();
+            //blogs.Add(latestBlog);
+            //latestBlog = await _context.Blogs
+            //    .Where(c => c.Type == "Politics")
+            //    .OrderByDescending(x => x.Cdt)
+            //    .FirstOrDefaultAsync();
+            //blogs.Add(latestBlog);
+            //latestBlog = await _context.Blogs
+            //    .Where(c => c.Type == "Competion")
+            //    .OrderByDescending(x => x.Cdt)
+            //    .FirstOrDefaultAsync();
+            //blogs.Add(latestBlog);
+            List<Blog> blogs = await _context.Blogs
+    .Where(c => c.Type == "Social" || c.Type == "Politics" || c.Type == "Competion")
+    .GroupBy(c => c.Type)
+    .Select(g => g.OrderByDescending(x => x.Cdt).FirstOrDefault())
+    .ToListAsync();
+
+            return View(blogs);
         }
         public async Task<IActionResult> Profile()
         {
@@ -26,17 +48,17 @@ namespace TranMinhKhoi_com_vn.Controllers
         }
         public async Task<IActionResult> Social()
         {
-            return View(await _context.Blogs.Where(c => c.Type == "Social").ToListAsync());
+            return View(await _context.Blogs.Where(c => c.Type == "Social").OrderByDescending(x=>x.Cdt).ToListAsync());
         }
 
 
         public async Task<IActionResult> Politics()
         {
-            return View(await _context.Blogs.Where(c => c.Type == "Politics").ToListAsync());
+            return View(await _context.Blogs.Where(c => c.Type == "Politics").OrderByDescending(x=>x.Cdt).ToListAsync());
         }
         public async Task<IActionResult> Competion()
         {
-            return View(await _context.Blogs.Where(c => c.Type == "Competion").ToListAsync());
+            return View(await _context.Blogs.Where(c => c.Type == "Competion").OrderByDescending(x => x.Cdt).ToListAsync());
         }
 
         public async Task<IActionResult> BlogDetails(int id)

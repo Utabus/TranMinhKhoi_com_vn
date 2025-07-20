@@ -62,6 +62,7 @@ namespace TranMinhKhoi_com_vn.Controllers
                 await _context.SaveChangesAsync();
                 HttpContext.Session.SetString("OTP", token);
                 HttpContext.Session.SetString("Email", account.Email ??"");
+                HttpContext.Session.SetString("UserName", account.UserName ?? "");
                 HttpContext.Session.SetString("ResetTokenExpiry", account.ResetTokenExpiry.ToString()??"");
                 var email = new MimeMessage();
                 email.From.Add(new MailboxAddress("AdminDotnet", "admin@example.com"));
@@ -111,6 +112,7 @@ namespace TranMinhKhoi_com_vn.Controllers
             var resetToken = HttpContext.Session.GetString("OTP");
             var resetTokenExpiry = HttpContext.Session.GetString("ResetTokenExpiry");
             var email = HttpContext.Session.GetString("Email");
+            var userName = HttpContext.Session.GetString("UserName");
 
             if (!DateTime.TryParse(resetTokenExpiry, out var expiry) || expiry < DateTime.UtcNow)
             {
@@ -118,7 +120,7 @@ namespace TranMinhKhoi_com_vn.Controllers
                 return View();
             }
 
-            var user = await _context.Accounts.Include(x => x.Role).FirstOrDefaultAsync(u => u.Email == email);
+            var user = await _context.Accounts.Include(x => x.Role).FirstOrDefaultAsync(u => u.Email == email && u.UserName == userName);
             if (user != null && resetToken == otp.Trim())
             {
 
@@ -203,7 +205,7 @@ namespace TranMinhKhoi_com_vn.Controllers
                 _notyfService.Error("Mật khẩu không bé hơn 6 kí tự");
                 return View(account);
             }
-            if (account.Phone?.Length != 10)
+            if (account.Phone?.Length != 12)
             {
                 _notyfService.Error("Số điện thoại là 10 số");
                 return View(account);

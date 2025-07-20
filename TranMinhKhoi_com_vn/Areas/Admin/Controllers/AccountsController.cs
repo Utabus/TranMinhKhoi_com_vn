@@ -58,6 +58,7 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 HttpContext.Session.SetString("OTP", token);
                 HttpContext.Session.SetString("Email", account.Email ?? "");
+                HttpContext.Session.SetString("UserName", account.UserName ?? "");
                 HttpContext.Session.SetString("ResetTokenExpiry", account.ResetTokenExpiry.ToString() ?? "");
                 var email = new MimeMessage();
                 email.From.Add(new MailboxAddress("AdminDotnet", "admin@example.com"));
@@ -97,6 +98,7 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
             var resetToken = HttpContext.Session.GetString("OTP");
             var resetTokenExpiry = HttpContext.Session.GetString("ResetTokenExpiry");
             var email = HttpContext.Session.GetString("Email");
+            var userName = HttpContext.Session.GetString("UserName");
 
             if (!DateTime.TryParse(resetTokenExpiry, out var expiry) || expiry < DateTime.UtcNow)
             {
@@ -104,7 +106,7 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
                 return View();
             }
 
-            var user = await _context.Accounts.Include(x=>x.Role).FirstOrDefaultAsync(u => u.Email == email);
+            var user = await _context.Accounts.Include(x => x.Role).FirstOrDefaultAsync(u => u.Email == email && u.UserName == userName);
             if (user != null && resetToken == otp.Trim())
             {
 
@@ -112,7 +114,7 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
                {
                    new Claim(ClaimTypes.Name, user.FullName??""),
                    new Claim("UserName" , user.UserName ?? ""),
-                new Claim(ClaimTypes.Role , user.Role?.Name ?? ""),
+                   new Claim(ClaimTypes.Role , user.Role?.Name ?? ""),
                    new Claim("Id" , user.Id.ToString()),
                     new Claim("Avartar", "/contents/Images/User/" + user.Avartar)
                };
