@@ -69,11 +69,12 @@ namespace TranMinhKhoi_com_vn.Controllers
 
         public async Task<IActionResult> Fund()
         {
-            if (!User.Identity.IsAuthenticated)
+            var user = User.Identity;
+            if (user == null || !user.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Account");
             }
-            var userName = User.Claims.FirstOrDefault(x => x.Type == "UserName").Value;
+            var userName = User?.Claims?.FirstOrDefault(x => x.Type == "UserName")?.Value;
             var fundModel = new FundModel
             {
                 Account = await _context.Accounts.FirstOrDefaultAsync(c => c.UserName == userName),

@@ -7,60 +7,7 @@
                 <div class="elementor-element elementor-element-547c0c1 e-flex e-con-boxed e-con e-parent" data-id="547c0c1" data-element_type="container" style="margin-bottom: 52px;">
                     <div class="e-con-inner">
                        
-                       
-                       
-                        <div class="elementor-element elementor-element-57edfc02 e-con-full section1_box e-flex e-con e-child" data-id="57edfc02" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
-                            <div class="elementor-element elementor-element-5a0d1f29 elementor-widget elementor-widget-image" data-id="5a0d1f29" data-element_type="widget" data-widget_type="image.default">
-                                <div class="elementor-widget-container">
-                                    <a href="#">
-                                        <img decoding="async" src="~/user/theme-images/home-styling-interior/images/service/image1.png" title="" alt="" loading="lazy" />
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="elementor-element elementor-element-24036093 e-con-full section1_cont_box e-flex e-con e-child" data-id="24036093" data-element_type="container">
-                                <div class="elementor-element elementor-element-78963143 elementor-widget__width-initial elementor-widget elementor-widget-heading" data-id="78963143" data-element_type="widget" data-widget_type="heading.default">
-                                    <div class="elementor-widget-container">
-                                        <h3 class="elementor-heading-title elementor-size-default">
-                                            @if (!User.Identity.IsAuthenticated)
-                                            {
-                                                <a asp-action="Courses" style="pointer-events: none; opacity: 0.5; cursor: not-allowed;">COURSE </a>
-                                            }
-                                            else    
-                                            {
-                                                <a asp-action="Courses">COURSE </a>
-                                            }
-                                        </h3>
-                                    </div>
-                                </div>
-                                <div class="elementor-element elementor-element-7e97afe0 elementor-align-center elementor-widget elementor-widget-button" data-id="7e97afe0" data-element_type="widget" data-widget_type="button.default">
-                                    <div class="elementor-widget-container">
-                                        <div class="elementor-button-wrapper">
-                                            @if (!User.Identity.IsAuthenticated)
-                                            {
-                                                <a class="elementor-button elementor-button-link elementor-size-sm"  style="pointer-events: none; opacity: 0.5; cursor: not-allowed;">
-                                                    <span class="elementor-button-content-wrapper">
-                                                        <span class="elementor-button-text">Read More</span>
-                                                    </span>
-                                                </a>
-                                            }
-                                            else
-                                            {
-                                                <a class="elementor-button elementor-button-link elementor-size-sm" asp-action="Courses">
-                                                    <span class="elementor-button-content-wrapper">
-                                                        <span class="elementor-button-text">Read More</span>
-                                                    </span>
-                                                </a>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-
-
+       
                         <div class="elementor-element elementor-element-6282f8ad e-con-full section1_box e-flex e-con e-child" data-id="6282f8ad" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
                             <div class="elementor-element elementor-element-16657269 elementor-widget elementor-widget-image" data-id="16657269" data-element_type="widget" data-widget_type="image.default">
                                 <div class="elementor-widget-container">
@@ -73,16 +20,16 @@
                                 <div class="elementor-element elementor-element-4eb21940 elementor-widget__width-initial elementor-widget elementor-widget-heading" data-id="4eb21940" data-element_type="widget" data-widget_type="heading.default">
                                     <div class="elementor-widget-container">
                                         <h3 class="elementor-heading-title elementor-size-default">
-                                            <a asp-action="Ielts" >IELTS</a>
+                                            <a>IELTS TEST (Coming soon)</a>
                                         </h3>
                                     </div>
                                 </div>
                                 <div class="elementor-element elementor-element-7e80394f elementor-align-center elementor-widget elementor-widget-button" data-id="7e80394f" data-element_type="widget" data-widget_type="button.default">
                                     <div class="elementor-widget-container">
                                         <div class="elementor-button-wrapper">
-                                            <a class="elementor-button elementor-button-link elementor-size-sm" asp-action="Ielts">
+                                            <a class="elementor-button elementor-button-link elementor-size-sm" >
                                                 <span class="elementor-button-content-wrapper">
-                                                    <span class="elementor-button-text">Read More</span>
+                                                    <span class="elementor-button-text">Read More (Coming soon)</span>
                                                 </span>
                                             </a>
                                         </div>
@@ -90,10 +37,14 @@
                                 </div>
                             </div>
                         </div>
+
+
+
+
                         <div class="elementor-element elementor-element-6ab7c935 e-con-full section1_box e-flex e-con e-child" data-id="6ab7c935" data-element_type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
                             <div class="elementor-element elementor-element-56711a3a elementor-widget elementor-widget-image" data-id="56711a3a" data-element_type="widget" data-widget_type="image.default">
                                 <div class="elementor-widget-container">
-                                    <a href="#">
+                                    <a asp-action="StudentLifeDetail" asp-route-Type="StudentLife-1">
                                         <img decoding="async" src="~/user/theme-images/home-styling-interior/images/service/image3.png" title="" alt="" loading="lazy" />
                                     </a>
                                 </div>
@@ -102,14 +53,14 @@
                                 <div class="elementor-element elementor-element-3ca8a03a elementor-widget__width-initial elementor-widget elementor-widget-heading" data-id="3ca8a03a" data-element_type="widget" data-widget_type="heading.default">
                                     <div class="elementor-widget-container">
                                         <h3 class="elementor-heading-title elementor-size-default">
-                                            <a asp-action="StudentLifeDetail" asp-route-Type="StudentLife-2">Soft Skill</a>
+                                            <a asp-action="StudentLifeDetail" asp-route-Type="StudentLife-1">Blog</a>
                                         </h3>
                                     </div>
                                 </div>
                                 <div class="elementor-element elementor-element-12e426d2 elementor-align-center elementor-widget elementor-widget-button" data-id="12e426d2" data-element_type="widget" data-widget_type="button.default">
                                     <div class="elementor-widget-container">
                                         <div class="elementor-button-wrapper">
-                                            <a class="elementor-button elementor-button-link elementor-size-sm" asp-action="StudentLifeDetail" asp-route-Type="StudentLife-2">
+                                            <a class="elementor-button elementor-button-link elementor-size-sm" asp-action="StudentLifeDetail" asp-route-Type="StudentLife-1">
                                                 <span class="elementor-button-content-wrapper">
                                                     <span class="elementor-button-text">Read More</span>
                                                 </span>

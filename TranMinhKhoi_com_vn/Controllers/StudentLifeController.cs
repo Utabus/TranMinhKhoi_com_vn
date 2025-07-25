@@ -1,4 +1,5 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TranMinhKhoi_com_vn.Areas.Admin.Controllers;
@@ -16,6 +17,10 @@ namespace TranMinhKhoi_com_vn.Controllers
 		{
 			return View();
 		}
+        public IActionResult Ielts()
+        {
+            return View();
+        }
         public async Task<IActionResult> StudentLifeDetail(string Type)
         {
             return View(await _context.Blogs.FirstOrDefaultAsync(c => c.Type == Type.Trim()));
@@ -23,11 +28,22 @@ namespace TranMinhKhoi_com_vn.Controllers
 
         public async Task<IActionResult> CoursesDetail(int id)
         {
+            var user = User.Identity;
+            if (user == null || !user.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View(await _context.Courses.FirstOrDefaultAsync(c => c.Id == id));
         }
 
         public async Task<IActionResult> Courses()
         {
+            var user = User.Identity;
+            if (user == null || !user.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            
             return View(await _context.Courses.ToListAsync());
         }
 

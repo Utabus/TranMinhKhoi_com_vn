@@ -16,28 +16,28 @@
 
                         <div class="header-top-area-left">
                             <div class="hdrtop-Info hdrsocial">
-                                <a style="color:black" class="fab fa-facebook-f" target="_blank" href="#"></a>
+                                <a style="color:@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "" : "black")" class="fab fa-facebook-f" target="_blank" href="https://www.facebook.com/KaitoAgency1008/"></a>
 
-                                <a style="color:black" class="fa-brands fa-x-twitter" target="_blank" href="#"></a>
+                                <a style="color:@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "" : "black")" class="fa-brands fa-x-twitter" target="_blank" href="#"></a>
 
-                                <a style="color:black" class="fab fa-linkedin" target="_blank" href="#"></a>
+                                <a style="color:@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "" : "black")" class="fab fa-linkedin" target="_blank" href="#"></a>
 
 
                             </div>
                         </div>
                         <div class="header-top-area-right">
                             <div class="heade-top-area-mail heade-top-area-add">
-                                <i style="color:black" class="fas fa-phone-alt"></i><a style="color:black">
+                                <i style="color:@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "" : "black")" class="fas fa-phone-alt"></i><a style="color:@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "" : "black")">
                                     +84
                                     5854 00000
                                 </a>
                             </div>
                             <div class="heade-top-area-mail">
-                                <i style="color:black" class="fas fa-envelope"></i><a style="color:black"
-                                                                                      href="mailto:info@website.com">Tranminkhoifacebook123@gmail.com</a>
+                                <i style="color:@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "" : "black")" class="fas fa-envelope"></i><a style="color:@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "" : "black")"
+                                                                                                                                                                                                                                   href="mailto:info@website.com">Tranminkhoifacebook123@gmail.com</a>
                             </div>
-                            <div class="heade-top-area-mail" style="color:black">
-                                <i style="color:black" class="fas fa-map-marker-alt"></i>Bình Thạnh - TP.Hồ Chí
+                            <div class="heade-top-area-mail" style="color:@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "" : "black")">
+                                <i style="color:@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "" : "black")" class="fas fa-map-marker-alt"></i>Bình Thạnh - TP.Hồ Chí
                                 Minh
                             </div>
                         </div>
@@ -114,11 +114,11 @@
                                                 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-388">
                                                 <a asp-controller="Account" asp-action="Profile">Profile</a>
                                             </li>
-                                          <li id="menu-item-388"
+                                            <li id="menu-item-388"
                                                 class="menu-item menu-item-type-post_type menu-item-object-page menu-item-388">
                                                 <a asp-controller="Account" asp-action="Logout">LogOut</a>
                                             </li>
-                                          
+
                                         </ul>
                                     </li>
                                 }

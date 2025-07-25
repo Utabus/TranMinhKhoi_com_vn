@@ -99,21 +99,21 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
             _context.Add(blog);
             await _context.SaveChangesAsync();
 
-            if (blog.Type == "Blog")
+            if (blog?.Type == "Blog")
             {
                 return RedirectToAction(nameof(Index));
 
             }
-            else if (blog.Type == "Social")
+            else if (blog?.Type == "Social")
             {
                 return RedirectToAction(nameof(IndexSocial));
             }
-            else if (blog.Type == "Politics")
+            else if (blog?.Type == "Politics")
             {
                 return RedirectToAction(nameof(IndexPolitics));
 
             }
-            else if (blog.Type == "Competion")
+            else if (blog?.Type == "Competion")
             {
                 return RedirectToAction(nameof(IndexCompetion));
 
@@ -176,26 +176,26 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
                     throw;
                 }
             }
-            if (blog.Type == "StudentLife-2" || blog.Type == "StudentLife-1" || blog.Type == "Profile")
+            if (blog?.Type == "StudentLife-2" || blog?.Type == "StudentLife-1" || blog?.Type == "Profile")
             {
                 return RedirectToAction(nameof(IndexPage));
 
             }
-            else if (blog.Type == "Blog")
+            else if (blog?.Type == "Blog")
             {
                 return RedirectToAction(nameof(Index));
 
             }
-            else if (blog.Type == "Social")
+            else if (blog?.Type == "Social")
             {
                 return RedirectToAction(nameof(IndexSocial));
             }
-            else if (blog.Type == "Politics")
+            else if (blog?.Type == "Politics")
             {
                 return RedirectToAction(nameof(IndexPolitics));
 
             }
-            else if (blog.Type == "Competion")
+            else if (blog?.Type == "Competion")
             {
                 return RedirectToAction(nameof(IndexCompetion));
 
@@ -237,21 +237,21 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
             }
 
             await _context.SaveChangesAsync();
-            if (blog.Type == "Blog")
+            if (blog?.Type == "Blog")
             {
                 return RedirectToAction(nameof(Index));
 
             }
-            else if (blog.Type == "Social")
+            else if (blog?.Type == "Social")
             {
                 return RedirectToAction(nameof(IndexSocial));
             }
-            else if (blog.Type == "Politics")
+            else if (blog?.Type == "Politics")
             {
                 return RedirectToAction(nameof(IndexPolitics));
 
             }
-            else if (blog.Type == "Competion")
+            else if (blog?.Type == "Competion")
             {
                 return RedirectToAction(nameof(IndexCompetion));
 
