@@ -1,4 +1,5 @@
-﻿
+﻿@model TranMinhKhoi_com_vn.Entities.VipAccount
+
 <div class="El-Full-width custom-mt" style="margin-top: 60px;">
     <div class="post-383 page type-page status-publish hentry" id="post-383">
         <div class="entry-content">
@@ -27,7 +28,13 @@
                                             }
                                             else    
                                             {
+                                                @if (Model == null)
+                                                {
+                                                    <a asp-action="BuyCourse" >Buy Now Course</a>
+                                                }else{
                                                 <a asp-action="Courses">COURSE </a>
+                                                    
+                                                }
                                             }
                                         </h3>
                                     </div>
@@ -45,11 +52,21 @@
                                             }
                                             else
                                             {
-                                                <a class="elementor-button elementor-button-link elementor-size-sm" asp-action="Courses">
+                                                if (Model == null)
+                                                {
+                                                      <a class="elementor-button elementor-button-link elementor-size-sm" asp-action="BuyCourse">
+                                                    <span class="elementor-button-content-wrapper">
+                                                        <span class="elementor-button-text">Buy Course</span>
+                                                    </span>
+                                                </a>
+                                                }else{
+                                                      <a class="elementor-button elementor-button-link elementor-size-sm" asp-action="Courses">
                                                     <span class="elementor-button-content-wrapper">
                                                         <span class="elementor-button-text">Read More</span>
                                                     </span>
                                                 </a>
+                                                }
+                                              
                                             }
                                         </div>
                                     </div>
@@ -124,7 +141,21 @@
 
 
             </div>
+            @* @if (Model == null)
+            {
 
+              <div class="elementor-element elementor-element-12e426d2 elementor-align-center elementor-widget elementor-widget-button "style="margin-bottom: 20px;" data-id="12e426d2" data-element_type="widget" data-widget_type="button.default">
+                                    <div class="elementor-widget-container">
+                                        <div class="elementor-button-wrapper">
+                                            <a class="elementor-button elementor-button-link elementor-size-sm" asp-action="BuyCourse" asp-route-id="1">
+                                                <span class="elementor-button-content-wrapper">
+                                                    <span class="elementor-button-text">Buy Course</span>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                } *@
         </div>
     </div>
 

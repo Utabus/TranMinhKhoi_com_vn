@@ -15,12 +15,52 @@ namespace TranMinhKhoi_com_vn.Controllers
 
         public IActionResult Index()
 		{
-			return View();
+            var userName = User.Claims.SingleOrDefault(c => c.Type == "UserName");
+            if (userName == null)
+                return View();
+
+                var user = _context.VipAccounts.Include(x => x.Account).FirstOrDefault(x => x.Account.UserName == userName.Value);
+			return View(user);
 		}
         public IActionResult Ielts()
         {
             return View();
         }
+        public async Task<IActionResult> BuyCourse()
+        {
+            var userName = User.Claims.SingleOrDefault(c => c.Type == "UserName");
+            var user = _context.Accounts.FirstOrDefault(x => x.UserName == userName.Value);
+            if (user == null)
+            {
+                _notyfService.Error("Bạn chưa đăng nhập");
+                return RedirectToAction("Login", "Account");
+            }
+
+            return View(user);  
+        }
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> BuyCourseHandle()
+        {
+            var userName = User.Claims.SingleOrDefault(c => c.Type == "UserName");
+            var user = _context.Accounts.FirstOrDefault(x => x.UserName == userName.Value);
+            if (user == null)
+            {
+                _notyfService.Error("Bạn chưa đăng nhập");
+                return RedirectToAction("Login", "Account");
+            }
+            user.Coin = user.Coin - 200000; 
+            var vipAccount = new VipAccount
+            {
+                AccountId = user?.Id,
+                Cdt = DateTime.Now,
+            };
+            _context.VipAccounts.Add(vipAccount);
+            await _context.SaveChangesAsync();
+            _notyfService.Success("Mua thành công khóa học");
+            return RedirectToAction("Index", "StudentLife");
+        }
+
         public async Task<IActionResult> StudentLifeDetail(string Type)
         {
             return View(await _context.Blogs.FirstOrDefaultAsync(c => c.Type == Type.Trim()));

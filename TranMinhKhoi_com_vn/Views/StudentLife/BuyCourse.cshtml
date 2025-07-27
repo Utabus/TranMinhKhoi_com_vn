@@ -1,0 +1,184 @@
+@model TranMinhKhoi_com_vn.Entities.Account
+
+<div class="container custom-mt" style="margin-top: 60px;">
+    <div id="tabber-BX">
+        <div class="LayoutContent-70 nosidebar">
+            <header>
+                <h1 class="entry-title">Mua Khóa Học</h1>
+                <p class="entry-description">Chọn khóa học bạn muốn mua và nhấn nút "Mua Ngay"</p>
+            </header>
+            
+           
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="payment-container custom-mt" style="margin-top: 60px;">
+    <div class="payment-card">
+        <h1 class="payment-title"><i class="fa fa-shopping-cart"></i> Thanh Toán Khóa Học</h1>
+        <div class="course-info">
+          
+            <div class="course-details text-center">
+                <h2>Toàn bộ khóa học trên web</h2>
+                <p>Mô tả ngắn về khóa học.</p>
+                <div class="course-price">
+                    <span>Giá:</span>
+                    <strong>
+                        @String.Format("{0:N0}", 200000) <span style="color:#ff9800;font-size:1.1em;">&#8363;</span>
+                    </strong>
+                </div>
+            </div>
+        </div>
+        <div class="user-balance">
+            <span>Số dư tài khoản:</span>
+            <strong>@(Model?.Coin?.ToString("0:N0") ?? "0") Đ</strong>
+        </div>
+        <div class="payment-actions">
+            <form method="post" asp-action="BuyCourseHandle">
+                @* <input type="hidden" name="CourseId" value="@(Model?.CourseId ?? 0)" /> *@
+                <button type="submit" class="btn-buy-now">
+                    <i class="fa fa-credit-card"></i> Mua Ngay
+                </button>
+            </form>
+            <a href="/Home/Fund" class="btn btn-outline-info btn-block" style="margin-top:10px;">
+                <i class="fa fa-plus-circle"></i> Nạp thêm Coin
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+.payment-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 60vh;
+    background: #f7fafd;
+}
+.payment-card {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(0,152,166,0.10), 0 1.5px 8px rgba(0,0,0,0.04);
+    padding: 36px 32px 28px 32px;
+    max-width: 480px;
+    width: 100%;
+}
+.payment-title {
+    font-size: 1.7rem;
+    color: #0098a6;
+    font-weight: 700;
+    margin-bottom: 22px;
+    text-align: center;
+}
+.course-info {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    margin-bottom: 18px;
+}
+.course-thumb img {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0,152,166,0.10);
+}
+.course-details {
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.course-details h2 {
+    font-size: 1.2rem;
+    color: #007b8a;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+.course-details p {
+    font-size: 0.98rem;
+    color: #444;
+    margin-bottom: 8px;
+}
+.course-price {
+    font-size: 1.25rem;
+    color: #0098a6;
+    font-weight: 700;
+    margin-top: 8px;
+    background: #e0f7fa;
+    border-radius: 8px;
+    padding: 8px 18px;
+    display: inline-block;
+}
+.course-price strong {
+    color: #ff9800;
+    font-size: 1.3em;
+    margin-left: 6px;
+}
+.user-balance {
+    background: #e0f7fa;
+    border-radius: 10px;
+    padding: 10px 16px;
+    margin-bottom: 18px;
+    font-size: 1.08rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.payment-actions .btn {
+    border-radius: 24px;
+    font-size: 1.08rem;
+    padding: 10px 0;
+    font-weight: 600;
+}
+.payment-actions .btn i {
+    margin-right: 8px;
+}
+.btn-buy-now {
+    width: 100%;
+    border: none;
+    border-radius: 28px;
+    padding: 12px 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #0098a6 60%, #00b3b3 100%);
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(0,152,166,0.13);
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.btn-buy-now i {
+    font-size: 1.2rem;
+    margin-right: 8px;
+}
+.btn-buy-now:hover, .btn-buy-now:focus {
+    background: linear-gradient(90deg, #007b8a 60%, #0098a6 100%);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 8px 32px rgba(0,152,166,0.18);
+    color: #fff;
+}
+@@media (max-width: 600px) {
+    .payment-card {
+        padding: 16px 4vw;
+    }
+    .course-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .course-thumb img {
+        width: 60px;
+        height: 60px;
+    }
+}
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />

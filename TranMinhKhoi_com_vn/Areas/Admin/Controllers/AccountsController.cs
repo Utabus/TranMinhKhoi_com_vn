@@ -36,17 +36,17 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
             if (account == null)
             {
                 _notyfService.Error("Thông tin đăng nhập không chính xác");
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Accounts");
             }
             if (account?.RoleId == 2)
             {
                 _notyfService.Error("Tài khoản của bạn là tài khoản học viên");
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Accounts");
             }
             if (account?.Status == 2)
             {
                 _notyfService.Error("Tài khoản đã bị khóa");
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Accounts");
             }
             if (account != null)
             {

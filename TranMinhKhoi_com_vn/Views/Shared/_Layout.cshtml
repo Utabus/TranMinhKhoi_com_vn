@@ -471,7 +471,7 @@
     <link rel='stylesheet' id='elementor-gf-local-poppins-css' href='~/user/wp-content/uploads/sites/8/elementor/google-fonts/css/poppins1f30.css?ver=1745503070' media='all' />
     <script src="~/user/wp-includes/js/jquery/jquery.minf43b.js?ver=3.7.1" id="jquery-core-js"></script>
     <script src="~/user/wp-includes/js/jquery/jquery-migrate.min5589.js?ver=3.4.1" id="jquery-migrate-js"></script>
-        @* <script src="~/user/wp-content/plugins/top-bar/js/tpbr_front.min0899.js?ver=6.8.1" id = "topbar_frontjs-js" ></script> *@
+    @* <script src="~/user/wp-content/plugins/top-bar/js/tpbr_front.min0899.js?ver=6.8.1" id = "topbar_frontjs-js" ></script> *@
     <script src="~/user/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min86fd.js?ver=2.7.0-wc.9.9.5" id="jquery-blockui-js" defer data-wp-strategy="defer"></script>
     <script id="wc-add-to-cart-js-extra">
         var wc_add_to_cart_params = { "ajax_url": "\/home-styling-interior\/wp-admin\/admin-ajax.php", "wc_ajax_url": "\/home-styling-interior\/?wc-ajax=%%endpoint%%", "i18n_view_cart": "View cart", "cart_url": "https:\/\/layout.themescarts.com\/home-styling-interior\/cart\/", "is_cart": "", "cart_redirect_after_add": "no" };
@@ -969,13 +969,7 @@
         .header_button_box a {
             background: #ffffff;
         }</style>
-   
-    <noscript>
-        <style>
-            .woocommerce-product-gallery {
-                opacity: 1 !important;
-            }</style>
-    </noscript>
+
     <meta name="generator" content="Elementor 3.29.2; features: e_font_icon_svg, additional_custom_breakpoints, e_local_google_fonts, e_element_cache; settings: css_print_method-external, google_font-enabled, font_display-swap">
     <style>
         .e-con.e-parent:nth-of-type(n+4):not(.e-lazyloaded):not(.e-no-lazyload),
@@ -1042,7 +1036,7 @@
     <div id="SiteWrapper">
 
         @await Html.PartialAsync("~/Views/PartialView/_Header.cshtml")
-         <div class="HomepageSlider">
+        <div class="HomepageSlider">
             @if (ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["Action"]?.ToString() == "Index")
             {
 
@@ -1079,12 +1073,9 @@
 
             }
 
-            </div>
+        </div>
 
-            <!-- .HomepageSlider -->
-      
-
-
+        <!-- .HomepageSlider -->
         @RenderBody()
         @await Html.PartialAsync("~/Views/PartialView/_Footer.cshtml")
 
@@ -1097,7 +1088,7 @@
     <div id="back-top">
         <a href="#top"><i class="fas fa-angle-up"></i></a>
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     @if (!(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["Action"]?.ToString() == "Fund"))
     {
         @await Component.InvokeAsync("Notyf")
