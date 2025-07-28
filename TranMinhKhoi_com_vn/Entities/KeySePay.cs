@@ -17,5 +17,5 @@ public partial class KeySePay
 
     public bool? Status { get; set; }
 
-    public string? Content { get; set; }
+    public string? Email { get; set; }
 }

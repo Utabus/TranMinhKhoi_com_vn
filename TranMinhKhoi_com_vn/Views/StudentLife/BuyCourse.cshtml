@@ -31,7 +31,7 @@
         </div>
         <div class="user-balance">
             <span>Số dư tài khoản:</span>
-            <strong>@(Model?.Coin?.ToString("0:N0") ?? "0") Đ</strong>
+            <strong>@(Model?.Coin?.ToString("N0") ?? "0") Đ</strong>
         </div>
         <div class="payment-actions">
             <form method="post" asp-action="BuyCourseHandle">

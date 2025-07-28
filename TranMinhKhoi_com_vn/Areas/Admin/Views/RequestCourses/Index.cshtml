@@ -1,0 +1,69 @@
+﻿@model IEnumerable<TranMinhKhoi_com_vn.Entities.RequestCourse>
+
+@{
+    ViewData["Title"] = "Danh sách yêu cầu khóa học";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1 class="mb-4 text-center">Danh sách yêu cầu khóa học</h1>
+<div class="row justify-content-center">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="card-title mb-0">Yêu cầu khóa học</h4>
+                    <a asp-action="Create" class="btn btn-info"><i class="bi bi-plus-circle"></i> Tạo mới</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.First().Cdt)</th>
+                                <th>@Html.DisplayNameFor(model => model.First().Status)</th>
+                                <th>@Html.DisplayNameFor(model => model.First().Account)</th>
+                                <th>@Html.DisplayNameFor(model => model.First().Course)</th>
+                                <th class="text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.Cdt)</td>
+                                    <td> @if (item.Status ==true)
+                                        {
+                                            <span class="badge bg-success">Xác nhận</span>
+                                        }
+                                                                        else
+                                        {
+                                            <span class="badge bg-secondary">Không xác nhận</span>
+                                        }
+                                    </td>
+                                    <td>@Html.DisplayFor(modelItem => item.Account.Email)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Course.Title)</td>
+                                    <td class="text-center">
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning"><i
+                                                class="bi bi-pencil"></i></a>
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info"><i
+                                                class="bi bi-eye"></i></a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger"><i
+                                                class="bi bi-trash"></i></a>
+                                        @if (item.Status == false)
+                                        {
+                                            <form asp-action="Confirm" asp-route-id="@item.Id" method="post"
+                                                style="display:inline;">
+                                                <button type="submit" class="btn btn-sm btn-success" title="Xác nhận">
+                                                    <i class="bi bi-check-circle"></i> Xác nhận
+                                                </button>
+                                            </form>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

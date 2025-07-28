@@ -25,7 +25,7 @@
                     <dt class="col-sm-4">Trạng thái</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.Status)</dd>
                     <dt class="col-sm-4">Nội dung</dt>
-                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Content)</dd>
+                    @* <dd class="col-sm-8">@Html.DisplayFor(model => model.Content)</dd> *@
                 </dl>
                 <form asp-action="Delete">
                     <input type="hidden" asp-for="Id" />

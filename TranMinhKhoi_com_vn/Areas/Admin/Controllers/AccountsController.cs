@@ -11,6 +11,7 @@ using MimeKit;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
+using TranMinhKhoi_com_vn.Services; // Thêm ở đầu file nếu chưa có
 
 namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
 {
@@ -60,24 +61,15 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
                 HttpContext.Session.SetString("Email", account.Email ?? "");
                 HttpContext.Session.SetString("UserName", account.UserName ?? "");
                 HttpContext.Session.SetString("ResetTokenExpiry", account.ResetTokenExpiry.ToString() ?? "");
-                var email = new MimeMessage();
-                email.From.Add(new MailboxAddress("AdminDotnet", "admin@example.com"));
-                email.To.Add(MailboxAddress.Parse($"{account.Email}"));
-                email.Subject = "Mã xác thực OTP";
-
-                email.Body = new TextPart("plain")
-                {
-                    Text = $"Mã xác thực OTP của bạn là : {token} OTP có thời hạn là 10 phút\n" +
+                string subject = "Mã xác thực OTP";
+                string body =
+                    $"Mã xác thực OTP của bạn là : {token} OTP có thời hạn là 10 phút\n" +
                     $"Vui lòng nhập mã OTP để đăng nhập vào hệ thống\n" +
                     $"Nếu bạn không yêu cầu đăng nhập, vui lòng bỏ qua email này\n" +
                     $"Trân trọng\n" +
-                    $"TranMinhKhoi.com.vn"
-                };
-                using var smtp = new SmtpClient();
-                smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-                smtp.Authenticate("khangchannel19@gmail.com", "jnal cnyl mlit izco");
-                smtp.Send(email);
-                smtp.Disconnect(true);
+                    $"TranMinhKhoi.com.vn";
+                await EmailService.SendEmailAsync(account.Email, subject, body);
+
                 return RedirectToAction(nameof(LoginOTP));
             }
             else
@@ -136,7 +128,7 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
         // GET: Admin/Accounts
         public async Task<IActionResult> Index()
         {
-            var tranMinhKhoiDbContext = _context.Accounts.Include(a => a.Role);
+            var tranMinhKhoiDbContext = _context.Accounts.Include(a => a.Role).Include(x=>x.VipAccounts);
             return View(await tranMinhKhoiDbContext.ToListAsync());
         }
 

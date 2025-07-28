@@ -29,40 +29,67 @@
                                 <th>@Html.DisplayNameFor(model => model.First().Status)</th>
                                 <th>@Html.DisplayNameFor(model => model.First().Major)</th>
                                 <th>@Html.DisplayNameFor(model => model.First().Role)</th>
+                                <th>@Html.DisplayNameFor(model => model.First().VipAccounts)</th>
                                 <th class="text-center">Thao tác</th>
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach (var item in Model) {
-                            <tr>
-                                <td>@Html.DisplayFor(modelItem => item.UserName)</td>
-                                <td>
-                                    @if (!string.IsNullOrEmpty(item.Avartar)) {
-                                        <img src="@Url.Content("~/contents/Images/User/" + item.Avartar)" alt="Avatar" class="rounded-circle border" style="width: 40px; height: 40px; object-fit: cover;">
-                                    } else {
-                                        <span class="text-muted">(Không có)</span>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.Avartar))
+                                        {
+                                            <img src="@Url.Content("~/contents/Images/User/" + item.Avartar)" alt="Avatar" class="rounded-circle border" style="width: 40px; height: 40px; object-fit: cover;">
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">(Không có)</span>
+                                        }
+                                    </td>
+                                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Coin)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Birthday)</td>
+                                    <td>
+                                        @if (item.Gender == 1)
+                                        {
+                                            <span class="badge bg-primary">Nam</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">Nữ</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (item.Status == 1)
+                                        {
+                                            <span class="badge bg-success">Hoạt động</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">Ngừng</span>
+                                        }
+                                    </td>
+                                    <td>@Html.DisplayFor(modelItem => item.Major)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Role.Name)</td>
+                                    @if (item.VipAccounts.FirstOrDefault(x=>x.AccountId == item.Id) != null)
+                                    {
+                                        <td>ĐÃ Mua  </td>
+
+                                    }else
+                                    {
+                                        <td>Chưa mua  </td>
                                     }
-                                </td>
-                                <td>@Html.DisplayFor(modelItem => item.Email)</td>
-                                <td>@Html.DisplayFor(modelItem => item.FullName)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Phone)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Coin)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Birthday)</td>
-                                <td>
-                                    @if(item.Gender == 1) { <span class="badge bg-primary">Nam</span> } else { <span class="badge bg-pink">Nữ</span> }
-                                </td>
-                                <td>
-                                    @if(item.Status == 1) { <span class="badge bg-success">Hoạt động</span> } else { <span class="badge bg-secondary">Ngừng</span> }
-                                </td>
-                                <td>@Html.DisplayFor(modelItem => item.Major)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Role.Id)</td>
-                                <td class="text-center">
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning me-1"><i class="bi bi-pencil-square"></i></a>
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info me-1"><i class="bi bi-info-circle"></i></a>
-                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
-                                </td>
-                            </tr>
-                        }
+                                    <td class="text-center">
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning me-1"><i class="bi bi-pencil-square"></i></a>
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info me-1"><i class="bi bi-info-circle"></i></a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>

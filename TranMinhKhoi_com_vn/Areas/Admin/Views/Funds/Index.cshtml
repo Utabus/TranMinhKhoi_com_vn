@@ -30,7 +30,7 @@
                         <tbody>
                         @foreach (var item in Model) {
                             <tr>
-                                <td>@Html.DisplayFor(modelItem => item.Total)</td>
+                                    <td>@item.Total?.ToString("N0") Đ</td>
                                 <td>@Html.DisplayFor(modelItem => item.InOut)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Cdt)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Status)</td>
