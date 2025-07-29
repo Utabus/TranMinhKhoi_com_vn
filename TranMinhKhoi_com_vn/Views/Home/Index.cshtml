@@ -4,12 +4,11 @@
 <style>
 
     .blog-image {
-    width: 180px;
-    height: 180px;
-    text-align: center;
-    margin: auto;
-}
-
+        width: 180px;
+        height: 180px;
+        text-align: center;
+        margin: auto;
+    }
 
 </style>
 
@@ -252,17 +251,24 @@
                                             <div class="elementor-widget-container">
                                                 <div class="elementor-image-box-wrapper">
                                                     <div class="blog-image">
-                                                        <img style="border-radius: 10%;"  width="170" height="170" src="~/contents/Images/Blog/@item.Image"  alt="" />
+                                                        <a asp-action="BlogDetails" asp-route-id="@item.Id">
+
+                                                        <img style="border-radius: 10%;" width="170" height="170" src="~/contents/Images/Blog/@item.Image" alt="" />
+                                                        </a>
                                                     </div>
-                                                    
+
                                                     <div class="elementor-image-box-content">
-                                                        <h3 class="elementor-image-box-title">@item.Title</h3>
+                                                        <h3 class="elementor-image-box-title">
+                                                            <a asp-action="BlogDetails" asp-route-id="@item.Id">
+                                                                @item.Title
+                                                            </a>
+                                                        </h3>
                                                         <p class="elementor-image-box-description">@item.Description</p>
                                                     </div>
                                                 </div>
-                                            </div> 
-                                        </div> 
-                                    </div> 
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 }
 

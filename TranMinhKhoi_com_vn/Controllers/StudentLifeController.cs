@@ -4,6 +4,7 @@ using MailKit.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using MimeKit;
 using TranMinhKhoi_com_vn.Areas.Admin.Controllers;
 using TranMinhKhoi_com_vn.Entities;
@@ -120,12 +121,57 @@ namespace TranMinhKhoi_com_vn.Controllers
 
         public async Task<IActionResult> CoursesDetail(int id)
         {
-            var user = User.Identity;
-            if (user == null || !user.IsAuthenticated)
+            try
             {
-                return RedirectToAction("Login", "Account");
+                var userName = User.Claims.SingleOrDefault(c => c.Type == "UserName");
+                var email = User.Claims.SingleOrDefault(c => c.Type == "Email");
+                var requestCourse = await _context.RequestCourses
+                    .Include(r => r.Account)
+                    .Include(r => r.Course)
+                    .FirstOrDefaultAsync(m => m.CourseId == id && m.Account.UserName == userName.Value);
+                if (requestCourse != null)
+                {
+                    if (requestCourse.Status == true)
+                    {
+                        return View(await _context.Courses.FirstOrDefaultAsync(c => c.Id == id));
+                    }
+                    else
+                    {
+                        _notyfService.Warning("Bạn đã gửi yêu cầu đăng ký khóa học này, vui lòng chờ duyệt!");
+                        return RedirectToAction("WaitForApprove");
+                    }
+                }
+                else
+                {
+                    var adminEmail = _context.KeySePays.FirstOrDefault();
+                    var account = _context.Accounts.FirstOrDefault(x => x.UserName == userName.Value);
+                    if (adminEmail != null)
+                    {
+                        string adminSubject = $"{account?.Email} yêu cầu xem khóa học";
+                        string adminBody = $"User: {userName?.Value} yêu cầu tham gia khóa học vui lòng xác nhận";
+                        await EmailService.SendEmailAsync(adminEmail.Email, adminSubject, adminBody);
+                    }
+                    var request = new RequestCourse
+                    {
+                        AccountId = account.Id,
+                        CourseId = id,
+                        Cdt = DateTime.UtcNow.AddHours(7),
+                        Status = false
+                    };
+                    _context.RequestCourses.Add(request);
+                    await _context.SaveChangesAsync();
+
+                    _notyfService.Warning("Bạn đã gửi yêu cầu đăng ký khóa học này, vui lòng chờ duyệt!");
+                    return RedirectToAction("WaitForApprove");
+
+                }
             }
-            return View(await _context.Courses.FirstOrDefaultAsync(c => c.Id == id));
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
         }
 
         public async Task<IActionResult> Courses()
