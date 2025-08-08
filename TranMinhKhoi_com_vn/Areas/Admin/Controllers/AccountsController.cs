@@ -32,7 +32,7 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             var password = pass.ToMD5();
-            var account = await _context.Accounts.FirstOrDefaultAsync(u => u.UserName == user && u.Password == password);
+            var account = await _context.Accounts.Include(x=>x.Role).FirstOrDefaultAsync(u => u.UserName == user && u.Password == password);
 
             if (account == null)
             {
@@ -52,25 +52,20 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
             if (account != null)
             {
 
-                var random = new Random();
-                var token = random.Next(10000000, 99999999).ToString();
-                account.ResetToken = token;
-                account.ResetTokenExpiry = DateTime.UtcNow.AddHours(7).AddMinutes(10);
-                await _context.SaveChangesAsync();
-                HttpContext.Session.SetString("OTP", token);
-                HttpContext.Session.SetString("Email", account.Email ?? "");
-                HttpContext.Session.SetString("UserName", account.UserName ?? "");
-                HttpContext.Session.SetString("ResetTokenExpiry", account.ResetTokenExpiry.ToString() ?? "");
-                string subject = "Mã xác thực OTP";
-                string body =
-                    $"Mã xác thực OTP của bạn là : {token} OTP có thời hạn là 10 phút\n" +
-                    $"Vui lòng nhập mã OTP để đăng nhập vào hệ thống\n" +
-                    $"Nếu bạn không yêu cầu đăng nhập, vui lòng bỏ qua email này\n" +
-                    $"Trân trọng\n" +
-                    $"TranMinhKhoi.com.vn";
-                await EmailService.SendEmailAsync(account.Email, subject, body);
+                List<Claim> claims = new List<Claim>()
+               {
+                   new Claim(ClaimTypes.Name, account.FullName??""),
+                   new Claim("UserName" , account.UserName ?? ""),
+                   new Claim(ClaimTypes.Role , account.Role?.Name ?? ""),
+                   new Claim("Id" , account.Id.ToString()),
+                    new Claim("Avartar", "/contents/Images/User/" + account.Avartar)
+               };
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var principal = new ClaimsPrincipal(identity);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                return RedirectToAction(nameof(LoginOTP));
+                _notyfService.Success("Đăng nhập thành công");
+                return RedirectToAction("Index", "Home");
             }
             else
             {

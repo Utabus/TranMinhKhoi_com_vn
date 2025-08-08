@@ -27,14 +27,14 @@
             </a>
         </li><!-- End Blog Page Nav -->
 
-        <li class="nav-item">
+       @*  <li class="nav-item">
             <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Blogs" && ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "" : "collapsed")"
                 asp-action="Index" asp-controller="Blogs">
                 <i class="bi bi-journal"></i>
                 <span>Blog Home</span>
             </a>
         </li><!-- End Blog Home Nav -->
-
+ *@
         <li class="nav-item">
             <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Blogs" && ViewContext.RouteData.Values["Action"]?.ToString() == "IndexSocial" ? "" : "collapsed")"
                asp-action="IndexSocial" asp-controller="Blogs">
