@@ -24,7 +24,14 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
         // GET: Admin/Blogs
         public async Task<IActionResult> IndexPage()
         {
-            var tranMinhKhoiDbContext = _context.Blogs.Include(b => b.Account).Where(x => x.Type != "Blog" && x.Type != "Social" && x.Type != "Politics" && x.Type != "Competion");
+            var tranMinhKhoiDbContext = _context.Blogs.Include(b => b.Account).Where(x => 
+            x.Type != "Blog" && 
+            x.Type != "Social" &&
+            x.Type != "Politics" && 
+            x.Type != "IELTS" && 
+            x.Type != "SoftSkill" && 
+            x.Type != "Competion"
+            );
             return View(await tranMinhKhoiDbContext.ToListAsync());
         }
         public async Task<IActionResult> Index()
@@ -46,6 +53,16 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
         public async Task<IActionResult> IndexCompetion()
         {
             var tranMinhKhoiDbContext = _context.Blogs.Include(b => b.Account).Where(x => x.Type == "Competion");
+            return View(await tranMinhKhoiDbContext.ToListAsync());
+        }
+          public async Task<IActionResult> IndexIELTS()
+        {
+            var tranMinhKhoiDbContext = _context.Blogs.Include(b => b.Account).Where(x => x.Type == "IELTS");
+            return View(await tranMinhKhoiDbContext.ToListAsync());
+        }
+            public async Task<IActionResult> IndexSoftSkill()
+        {
+            var tranMinhKhoiDbContext = _context.Blogs.Include(b => b.Account).Where(x => x.Type == "SoftSkill");
             return View(await tranMinhKhoiDbContext.ToListAsync());
         }
 
@@ -116,6 +133,14 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
             else if (blog?.Type == "Competion")
             {
                 return RedirectToAction(nameof(IndexCompetion));
+
+            }  else if (blog?.Type == "IELTS")
+            {
+                return RedirectToAction(nameof(IndexIELTS));
+
+            }  else if (blog?.Type == "SoftSkill")
+            {
+                return RedirectToAction(nameof(IndexSoftSkill));
 
             }
             else

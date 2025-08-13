@@ -58,6 +58,20 @@
                 <span>Blog Competion</span>
             </a>
         </li><!-- End Blog Competion Nav -->
+           <li class="nav-item">
+            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Blogs" && ViewContext.RouteData.Values["Action"]?.ToString() == "IndexIELTS" ? "" : "collapsed")"
+               asp-action="IndexIELTS" asp-controller="Blogs">
+                <i class="bi bi-trophy"></i>
+                <span>Blog IELTS</span>
+            </a>
+        </li><!-- End Blog Competion Nav -->
+           <li class="nav-item">
+            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Blogs" && ViewContext.RouteData.Values["Action"]?.ToString() == "IndexSoftSkill" ? "" : "collapsed")"
+               asp-action="IndexSoftSkill" asp-controller="Blogs">
+                <i class="bi bi-trophy"></i>
+                <span>Blog SoftSkill</span>
+            </a>
+        </li><!-- End Blog Competion Nav -->
 
         <li class="nav-item">
             <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Courses" ? "" : "collapsed")"

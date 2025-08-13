@@ -25,6 +25,11 @@
         <h2>Thông tin cá nhân</h2>
         <ul>
             <li><i class="fa fa-user fa-lg"></i> <strong>Họ tên:</strong> @Model.FullName</li>
+            <li>
+                <i class="fa fa-graduation-cap fa-lg"></i>
+                <strong>Chuyên ngành:</strong> @Model.Major
+            </li>
+
             <li><i class="fa fa-envelope fa-lg"></i> <strong>Email:</strong> @Model.Email</li>
               <li><i class="fa fa-coins fa-lg"></i> <strong>Balance :</strong> @(Model.Coin.HasValue ? Model.Coin.Value.ToString("N0") : "0")</li>
         </ul>

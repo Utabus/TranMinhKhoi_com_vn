@@ -245,6 +245,7 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
                 nhanvien.Gender = account.Gender;
                 nhanvien.Status = account.Status;
                 nhanvien.UserName = account.UserName;
+                nhanvien.Major = account.Major;
 
                 _notyfService.Success("Sửa thành công!");
                 await _context.SaveChangesAsync();

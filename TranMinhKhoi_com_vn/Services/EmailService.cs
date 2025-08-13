@@ -40,7 +40,7 @@ namespace TranMinhKhoi_com_vn.Services
             email.To.Add(MailboxAddress.Parse(toEmail));
             email.Subject = subject;
 
-            email.Body = new TextPart("plain")
+            email.Body = new TextPart("html")
             {
                 Text = body
             };

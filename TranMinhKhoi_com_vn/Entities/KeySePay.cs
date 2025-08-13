@@ -18,4 +18,5 @@ public partial class KeySePay
     public bool? Status { get; set; }
 
     public string? Email { get; set; }
+    public int? Coin { get; set; }
 }

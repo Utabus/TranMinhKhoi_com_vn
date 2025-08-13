@@ -7,34 +7,40 @@ $(document).ready(function () {
         var password = $(this).val();
         var strength = 0;
         var requirements = [];
-        
+
         if (password.length >= 6) {
             strength++;
         } else {
             requirements.push("Ít nhất 6 ký tự");
         }
-        
+
         if (password.match(/[a-z]/)) {
             strength++;
         } else {
             requirements.push("1 chữ thường");
         }
-        
+
         if (password.match(/[A-Z]/)) {
             strength++;
         } else {
             requirements.push("1 chữ hoa");
         }
-        
+
         if (password.match(/[0-9]/)) {
             strength++;
         } else {
             requirements.push("1 số");
         }
-        
+
+        if (password.match(/[^a-zA-Z0-9]/)) { // ký tự đặc biệt
+            strength++;
+        } else {
+            requirements.push("1 ký tự đặc biệt");
+        }
+
         var strengthText = "";
         var strengthClass = "";
-        
+
         switch (strength) {
             case 0:
             case 1:
@@ -53,33 +59,29 @@ $(document).ready(function () {
                 strengthText = "Mạnh";
                 strengthClass = "text-primary";
                 break;
+            case 5:
+                strengthText = "Rất mạnh";
+                strengthClass = "text-success";
+                break;
         }
-        
-        // Remove existing indicators
+
         $(".password-strength").remove();
         $(".password-requirements").remove();
-        
+
         if (password.length > 0) {
             $(this).after('<small class="password-strength ' + strengthClass + '">Độ mạnh: ' + strengthText + '</small>');
-            
+
             if (requirements.length > 0) {
                 $(this).after('<small class="password-requirements text-muted d-block mt-1">Yêu cầu: ' + requirements.join(', ') + '</small>');
             }
         }
     });
 
+
     // Phone number formatting
     $("#Phone").on("input", function () {
         var phone = $(this).val().replace(/\D/g, '');
-        if (phone.length > 0) {
-            if (phone.length <= 3) {
-                phone = phone;
-            } else if (phone.length <= 6) {
-                phone = phone.slice(0, 3) + '-' + phone.slice(3);
-            } else {
-                phone = phone.slice(0, 3) + '-' + phone.slice(3, 6) + '-' + phone.slice(6, 10);
-            }
-        }
+        
         $(this).val(phone);
     });
 

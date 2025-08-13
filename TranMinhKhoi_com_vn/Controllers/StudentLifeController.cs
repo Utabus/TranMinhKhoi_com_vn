@@ -100,8 +100,49 @@ namespace TranMinhKhoi_com_vn.Controllers
                 var adminEmail = _context.KeySePays.FirstOrDefault();
                 if (adminEmail != null)
                 {
-                    string adminSubject = $"{user.Email} đã mua khóa học";
-                    string adminBody = $"User: {user.UserName} đã mua khóa học lúc {vipAccount.Cdt?.ToString("dd/MM/yyyy")}";
+                    string adminSubject = $"[Tranminhkhoi.com.vn] {user.Email} đã mua khóa học";
+
+                    string adminBody = $@"
+<html>
+<head>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }}
+        .container {{
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            max-width: 500px;
+        }}
+        h2 {{
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }}
+        p {{
+            margin: 8px 0;
+        }}
+        .highlight {{
+            color: #007BFF;
+            font-weight: bold;
+        }}
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <h2>Thông báo mua khóa học</h2>
+        <p><strong>Người dùng:</strong> <span class='highlight'>{user.UserName}</span></p>
+        <p><strong>Email:</strong> {user.Email}</p>
+        <p><strong>Chuyên ngành:</strong> {user.Major}</p>
+        <p><strong>Ngày mua:</strong> {vipAccount.Cdt?.ToString("dd/MM/yyyy")}</p>
+    </div>
+</body>
+</html>
+";
+
                     await EmailService.SendEmailAsync(adminEmail.Email, adminSubject, adminBody);
                 }
             }
@@ -123,48 +164,49 @@ namespace TranMinhKhoi_com_vn.Controllers
         {
             try
             {
-                var userName = User.Claims.SingleOrDefault(c => c.Type == "UserName");
-                var email = User.Claims.SingleOrDefault(c => c.Type == "Email");
-                var requestCourse = await _context.RequestCourses
-                    .Include(r => r.Account)
-                    .Include(r => r.Course)
-                    .FirstOrDefaultAsync(m => m.CourseId == id && m.Account.UserName == userName.Value);
-                if (requestCourse != null)
-                {
-                    if (requestCourse.Status == true)
-                    {
-                        return View(await _context.Courses.FirstOrDefaultAsync(c => c.Id == id));
-                    }
-                    else
-                    {
-                        _notyfService.Warning("Bạn đã gửi yêu cầu đăng ký khóa học này, vui lòng chờ duyệt!");
-                        return RedirectToAction("WaitForApprove");
-                    }
-                }
-                else
-                {
-                    var adminEmail = _context.KeySePays.FirstOrDefault();
-                    var account = _context.Accounts.FirstOrDefault(x => x.UserName == userName.Value);
-                    if (adminEmail != null)
-                    {
-                        string adminSubject = $"{account?.Email} yêu cầu xem khóa học";
-                        string adminBody = $"User: {userName?.Value} yêu cầu tham gia khóa học vui lòng xác nhận";
-                        await EmailService.SendEmailAsync(adminEmail.Email, adminSubject, adminBody);
-                    }
-                    var request = new RequestCourse
-                    {
-                        AccountId = account.Id,
-                        CourseId = id,
-                        Cdt = DateTime.UtcNow.AddHours(7),
-                        Status = false
-                    };
-                    _context.RequestCourses.Add(request);
-                    await _context.SaveChangesAsync();
+                return View(await _context.Courses.FirstOrDefaultAsync(c => c.Id == id));
+                //var userName = User.Claims.SingleOrDefault(c => c.Type == "UserName");
+                //var email = User.Claims.SingleOrDefault(c => c.Type == "Email");
+                //var requestCourse = await _context.RequestCourses
+                //    .Include(r => r.Account)
+                //    .Include(r => r.Course)
+                //    .FirstOrDefaultAsync(m => m.CourseId == id && m.Account.UserName == userName.Value);
+                //if (requestCourse != null)
+                //{
+                //    if (requestCourse.Status == true)
+                //    {
+                //        return View(await _context.Courses.FirstOrDefaultAsync(c => c.Id == id));
+                //    }
+                //    else
+                //    {
+                //        _notyfService.Warning("Bạn đã gửi yêu cầu đăng ký khóa học này, vui lòng chờ duyệt!");
+                //        return RedirectToAction("WaitForApprove");
+                //    }
+                //}
+                //else
+                //{
+                //    var adminEmail = _context.KeySePays.FirstOrDefault();
+                //    var account = _context.Accounts.FirstOrDefault(x => x.UserName == userName.Value);
+                //    if (adminEmail != null)
+                //    {
+                //        string adminSubject = $"{account?.Email} yêu cầu xem khóa học";
+                //        string adminBody = $"User: {userName?.Value} yêu cầu tham gia khóa học vui lòng xác nhận";
+                //        await EmailService.SendEmailAsync(adminEmail.Email, adminSubject, adminBody);
+                //    }
+                //    var request = new RequestCourse
+                //    {
+                //        AccountId = account.Id,
+                //        CourseId = id,
+                //        Cdt = DateTime.UtcNow.AddHours(7),
+                //        Status = false
+                //    };
+                //    _context.RequestCourses.Add(request);
+                //    await _context.SaveChangesAsync();
 
-                    _notyfService.Warning("Bạn đã gửi yêu cầu đăng ký khóa học này, vui lòng chờ duyệt!");
-                    return RedirectToAction("WaitForApprove");
+                //    _notyfService.Warning("Bạn đã gửi yêu cầu đăng ký khóa học này, vui lòng chờ duyệt!");
+                //    return RedirectToAction("WaitForApprove");
 
-                }
+                //}
             }
             catch (Exception)
             {
@@ -189,5 +231,20 @@ namespace TranMinhKhoi_com_vn.Controllers
         {
             return View();
         }
+
+
+        public async Task<IActionResult> IeltsBlog()
+        {
+            return View(await _context.Blogs.Where(c => c.Type == "Ielts").OrderByDescending(x => x.Cdt).ToListAsync());
+        }
+
+
+
+        public async Task<IActionResult> SoftSkill()
+        {
+            return View(await _context.Blogs.Where(c => c.Type == "SoftSkill").OrderByDescending(x => x.Cdt).ToListAsync());
+        }
+
+
     }
 }
