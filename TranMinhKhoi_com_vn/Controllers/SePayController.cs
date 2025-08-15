@@ -20,7 +20,7 @@ namespace TranMinhKhoi_com_vn.Controllers
         }
         public IActionResult Index()
         {
-            return Ok();
+            return Ok(1);
         }
 
         [HttpPost("transaction")]

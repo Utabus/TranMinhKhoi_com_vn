@@ -1,4 +1,4 @@
-@model TranMinhKhoi_com_vn.Entities.Account
+@model TranMinhKhoi_com_vn.Models.BuyCourse
 
 <div class="container custom-mt" style="margin-top: 60px;">
     <div id="tabber-BX">
@@ -23,14 +23,14 @@
                 <div class="course-price">
                     <span>Giá:</span>
                     <strong>
-                        @String.Format("{0:N0}", 200000) <span style="color:#ff9800;font-size:1.1em;">&#8363;</span>
+                        @String.Format("{0:N0}", Model?.KeySePay.Coin) <span style="color:#ff9800;font-size:1.1em;">&#8363;</span>
                     </strong>
                 </div>
             </div>
         </div>
         <div class="user-balance">
             <span style="  font-family: 'Roboto', Arial, Helvetica, sans-serif !important;">Số dư tài khoản:</span>
-            <strong>@(Model?.Coin?.ToString("N0") ?? "0") Đ</strong>
+            <strong>@(Model?.Account.Coin?.ToString("N0") ?? "0") Đ</strong>
         </div>
         <div class="payment-actions">
             <form method="post" asp-action="BuyCourseHandle">
@@ -39,8 +39,8 @@
                     <i class="fa fa-credit-card"></i> Mua Ngay
                 </button>
             </form>
-            <a href="/Home/Fund" class="btn btn-outline-info btn-block" style="margin-top:10px;">
-                <i class="fa fa-plus-circle"></i> Nạp thêm Coin
+            <a href="/Home/Fund" class="btn btn-outline-info btn-block" style="margin-top:10px; font-family: 'Roboto', Arial, Helvetica, sans-serif !important;">
+                <i style="" class="fa fa-plus-circle"></i> Nạp thêm số dư
             </a>
         </div>
     </div>

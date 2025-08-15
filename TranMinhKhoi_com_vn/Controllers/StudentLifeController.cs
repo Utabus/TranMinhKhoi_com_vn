@@ -8,25 +8,26 @@ using Microsoft.Identity.Client;
 using MimeKit;
 using TranMinhKhoi_com_vn.Areas.Admin.Controllers;
 using TranMinhKhoi_com_vn.Entities;
+using TranMinhKhoi_com_vn.Models;
 using TranMinhKhoi_com_vn.Services; // Thêm dòng này ở đầu file
 
 namespace TranMinhKhoi_com_vn.Controllers
 {
-	public class StudentLifeController : BaseController
-	{
+    public class StudentLifeController : BaseController
+    {
         public StudentLifeController(TranMinhKhoiDbContext context, INotyfService notyfService, IConfiguration configuration) : base(context, notyfService, configuration)
         {
         }
 
         public IActionResult Index()
-		{
+        {
             var userName = User.Claims.SingleOrDefault(c => c.Type == "UserName");
             if (userName == null)
                 return View();
 
-                var user = _context.VipAccounts.Include(x => x.Account).FirstOrDefault(x => x.Account.UserName == userName.Value);
-			return View(user);
-		}
+            var user = _context.VipAccounts.Include(x => x.Account).FirstOrDefault(x => x.Account.UserName == userName.Value);
+            return View(user);
+        }
         public IActionResult Ielts()
         {
             return View();
@@ -40,8 +41,12 @@ namespace TranMinhKhoi_com_vn.Controllers
                 _notyfService.Error("Bạn chưa đăng nhập");
                 return RedirectToAction("Login", "Account");
             }
-
-            return View(user);  
+            var data = new BuyCourse()
+            {
+                Account = user,
+                KeySePay = _context.KeySePays.SingleOrDefault()
+            };
+            return View(data);
         }
         [Authorize]
         [HttpPost]
@@ -85,15 +90,68 @@ namespace TranMinhKhoi_com_vn.Controllers
             await _context.SaveChangesAsync();
 
             // Gửi email cho user
-            string subject = "Thông tin mua khóa học của bạn";
-            string body =
-                $"Xin chào {user.UserName},\n\n" +
-                $"Cảm ơn bạn đã mua khóa học trên trang web của chúng tôi.\n" +
-                $"Thông tin khóa học:\n" +
-                $"Tên khóa học: Toàn bộ khóa học\n" +
-                $"Ngày mua: {vipAccount.Cdt?.ToString("dd/MM/yyyy")}\n" +
-                $"Trân trọng\n" +
-                $"TranMinhKhoi.com.vn";
+            string subject = "[Tranminhkhoi.com.vn] Thông tin mua khóa học của bạn";
+            string body = $@"
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <style>
+    body {{
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+    }}
+    .container {{
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+    }}
+    h2 {{
+        color: #2c3e50;
+    }}
+    .info {{
+        margin: 10px 0;
+        padding: 10px;
+        background: #fff;
+        border-radius: 5px;
+        border: 1px solid #eee;
+    }}
+    .footer {{
+        margin-top: 20px;
+        font-size: 14px;
+        color: #777;
+    }}
+  </style>
+</head>
+<body>
+  <div class='container'>
+    <h2>Xin chào {user.UserName},</h2>
+    <p>Cảm ơn bạn đã mua khóa học trên trang web của chúng tôi. Dưới đây là thông tin chi tiết:</p>
+    
+    <div class='info'>
+      <p><strong>Tên:</strong> {user.FullName}</p>
+      <p><strong>Email:</strong> {user.Email}</p>
+      <p><strong>Chuyên ngành:</strong> {user.Major}</p>
+    </div>
+
+    <h3>Thông tin khóa học</h3>
+    <div class='info'>
+      <p><strong>Tên khóa học:</strong> Toàn bộ khóa học</p>
+      <p><strong>Ngày mua:</strong> {vipAccount.Cdt?.ToString("dd/MM/yyyy")}</p>
+    </div>
+
+    <p>Chúc bạn học tập hiệu quả và thành công!</p>
+    <div class='footer'>
+      Trân trọng,<br>
+      <strong>TranMinhKhoi.com.vn</strong>
+    </div>
+  </div>
+</body>
+</html>
+";
             try
             {
                 await EmailService.SendEmailAsync(user.Email, subject, body);
@@ -213,7 +271,7 @@ namespace TranMinhKhoi_com_vn.Controllers
 
                 throw;
             }
-           
+
         }
 
         public async Task<IActionResult> Courses()
@@ -223,7 +281,7 @@ namespace TranMinhKhoi_com_vn.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            
+
             return View(await _context.Courses.ToListAsync());
         }
 

@@ -3,11 +3,13 @@
 
 <style>
 
-    .blog-image {
-        width: 180px;
-        height: 180px;
-        text-align: center;
-        margin: auto;
+    .blog-image img {
+        width: 170px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 16px;
+        display: block; 
+        margin: 0 auto;
     }
 
 </style>
@@ -257,13 +259,27 @@
                                                         </a>
                                                     </div>
 
-                                                    <div class="elementor-image-box-content">
+                                                    <div class="elementor-image-box-content" style="margin-top:30px">
                                                         <h3 class="elementor-image-box-title">
                                                             <a asp-action="BlogDetails" asp-route-id="@item.Id">
                                                                 @item.Title
                                                             </a>
                                                         </h3>
-                                                        <p class="elementor-image-box-description">@item.Description</p>
+                                                        <p class="elementor-image-box-description">
+                                                            @{
+                                                                var desc = item.Description ?? "";
+                                                                var shortDesc = desc.Length > 100 ? desc.Substring(0, 100) : desc;
+                                                                var showReadMore = desc.Length > 100;
+                                                                var descId = "desc_" + item.Id;
+                                                            }  
+                                                            <span id="@descId">
+                                                                @shortDesc
+                                                                @if (showReadMore)
+                                                                {
+                                                                    <span>... <a href="javascript:void(0);" onclick="showFullDesc('@descId', `@desc.Replace("`", "\\`")`, `@shortDesc`)">Xem thêm</a></span>
+                                                                }
+                                                            </span>
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -288,3 +304,18 @@
     </div>
 
 </div><!--.El-Full-width-->
+
+@section Scripts {
+    <script>
+        function showFullDesc(id, fullText, shortText) {
+            var el = document.getElementById(id);
+            if (el.getAttribute('data-full') === '1') {
+                el.innerHTML = shortText + '... <a href="javascript:void(0);" onclick="showFullDesc(\'' + id + '\', `' + fullText.replace(/`/g, "\\`") + '`, `' + shortText.replace(/`/g, "\\`") + '`);">Xem thêm</a>';
+                el.setAttribute('data-full', '0');
+            } else {
+                el.innerHTML = fullText + ' <a href="javascript:void(0);" onclick="showFullDesc(\'' + id + '\', `' + fullText.replace(/`/g, "\\`") + '`, `' + shortText.replace(/`/g, "\\`") + '`);">Ẩn bớt</a>';
+                el.setAttribute('data-full', '1');
+            }
+        }
+    </script>
+}

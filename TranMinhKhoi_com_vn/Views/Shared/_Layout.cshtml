@@ -495,63 +495,7 @@
     <link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="wp-json/oembed/1.0/embed8aec.json?url=https%3A%2F%2Flayout.themescarts.com%2Fhome-styling-interior%2F" />
     <link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="wp-json/oembed/1.0/embeda39d?url=https%3A%2F%2Flayout.themescarts.com%2Fhome-styling-interior%2F&amp;format=xml" />
     <script>
-        jQuery(window).bind('scroll', function () {
-            var wwd = jQuery(window).width();
-            if (wwd > 939) {
-                var navHeight = jQuery(window).height() - 600;
-            }
-        });
-
-
-        jQuery(window).load(function () {
-            jQuery('#slider').nivoSlider({
-                effect: 'random', //sliceDown, sliceDownLeft, sliceUp, sliceUpLeft, sliceUpDown, sliceUpDownLeft, fold, fade, random, slideInRight, slideInLeft, boxRandom, boxRain, boxRainReverse, boxRainGrow, boxRainGrowReverse
-                animSpeed: 500,
-                pauseTime: 4000,
-                directionNav: false,
-                controlNav: true,
-                pauseOnHover: false,
-            });
-        });
-
-
-        jQuery(window).load(function () {
-            jQuery('.owl-carousel').owlCarousel({
-                loop: true,
-                autoplay: true,
-                autoplayTimeout: 8000,
-                margin: 30,
-                nav: true,
-                autoHeight: false,
-                navText: ["<i class='fa-solid fa-angle-left'></i>", "<i class='fa-solid fa-angle-right'></i>"],
-                dots: true,
-                responsive: {
-                    0: {
-                        items: 1
-                    },
-                    600: {
-                        items: 1
-                    },
-                    1000: {
-                        items: 1
-                    }
-                }
-            })
-
-        });
-
-        jQuery(document).ready(function () {
-
-            jQuery('.link').on('click', function (event) {
-                var $this = jQuery(this);
-                if ($this.hasClass('clicked')) {
-                    $this.removeAttr('style').removeClass('clicked');
-                } else {
-                    $this.css('background', '#7fc242').addClass('clicked');
-                }
-            });
-
-        });
+      
     </script>
     <style>
         body, .contact-form-section .address, .accordion-box .acc-content {
@@ -1096,6 +1040,10 @@
     @if (!(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["Action"]?.ToString() == "Index"))
     {
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    }@if ((ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["Action"]?.ToString() == "Index"))
+    {
+        <script src="~/js/site.js"></script>
 
     }
     @if (!(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["Action"]?.ToString() == "Fund"))
