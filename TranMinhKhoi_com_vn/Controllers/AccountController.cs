@@ -42,16 +42,16 @@ namespace TranMinhKhoi_com_vn.Controllers
                 _notyfService.Error("Thông tin đăng nhập không chính xác");
                 return RedirectToAction("Login", "Account");
             }
-            //if (account?.RoleId == 1 || account?.RoleId == 2)
-            //{
-            //    _notyfService.Error("Tài khoản của bạn là tài khoản Admin");
-            //    return RedirectToAction("Login", "Account");
-            //}
-            //if (account?.Status == 2)
-            //{
-            //    _notyfService.Error("Tài khoản đã bị khóa");
-            //    return RedirectToAction("Login", "Account");
-            //}
+            if (account?.RoleId == 1 || account?.RoleId == 2)
+            {
+                _notyfService.Error("Tài khoản của bạn là tài khoản Admin");
+                return RedirectToAction("Login", "Account");
+            }
+            if (account?.Status == 2)
+            {
+                _notyfService.Error("Tài khoản đã bị khóa");
+                return RedirectToAction("Login", "Account");
+            }
             if (account != null)
             {
 
