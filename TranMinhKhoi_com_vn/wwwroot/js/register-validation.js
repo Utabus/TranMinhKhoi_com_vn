@@ -14,10 +14,10 @@ $(document).ready(function () {
             requirements.push("Ít nhất 6 ký tự");
         }
 
-        if (password.match(/[a-z]/)) {
+        if (password.match(/[a-z]/)) { 
             strength++;
         } else {
-            requirements.push("1 chữ thường");
+            requirements.push("1 chữ thường"); 
         }
 
         if (password.match(/[A-Z]/)) {
@@ -75,6 +75,9 @@ $(document).ready(function () {
                 $(this).after('<small class="password-requirements text-muted d-block mt-1">Yêu cầu: ' + requirements.join(', ') + '</small>');
             }
         }
+    }).on("blur", function () {
+        console.log("Password value:", $(this).val());
+        console.log("Valid:", $(this).valid());
     });
 
 
@@ -83,6 +86,17 @@ $(document).ready(function () {
         var phone = $(this).val().replace(/\D/g, '');
         
         $(this).val(phone);
+    });
+
+    // Confirm password validation
+    $("#confirmPassword").on("input", function () {
+        var password = $("#Password").val();
+        var confirmPassword = $(this).val();
+        $(".confirm-password-error").remove();
+
+        if (confirmPassword.length > 0 && password !== confirmPassword) {
+            $(this).after('<small class="confirm-password-error text-danger">Mật khẩu xác nhận không khớp</small>');
+        }
     });
 
     // Form submission handling
@@ -119,4 +133,4 @@ $(document).ready(function () {
         var isValid = $(this).valid();
         console.log("Field:", fieldName, "Value:", fieldValue, "Valid:", isValid);
     });
-}); 
+});

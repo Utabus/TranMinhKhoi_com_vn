@@ -14,10 +14,8 @@ public partial class Account
     [RegularExpression(@"^[a-zA-Z0-9_]+$", ErrorMessage = "Tên đăng nhập chỉ được chứa chữ cái, số và dấu gạch dưới")]
     public string? UserName { get; set; }
 
-    [Required(ErrorMessage = "Mật khẩu là bắt buộc")]
+    [Required(ErrorMessage = "Mật khẩu không được để trống")]
     [StringLength(100, MinimumLength = 6, ErrorMessage = "Mật khẩu phải từ 6-100 ký tự")]
-    [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$", 
-        ErrorMessage = "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường và 1 số")]
     public string? Password { get; set; }
 
     [StringLength(500, ErrorMessage = "Đường dẫn avatar không được vượt quá 500 ký tự")]

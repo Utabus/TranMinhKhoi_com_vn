@@ -61,9 +61,9 @@ namespace TranMinhKhoi_com_vn.Controllers
                 account.ResetTokenExpiry = DateTime.UtcNow.AddHours(7).AddMinutes(10);
                 await _context.SaveChangesAsync();
                 HttpContext.Session.SetString("OTP", token);
-                HttpContext.Session.SetString("Email", account.Email ??"");
+                HttpContext.Session.SetString("Email", account.Email ?? "");
                 HttpContext.Session.SetString("UserName", account.UserName ?? "");
-                HttpContext.Session.SetString("ResetTokenExpiry", account.ResetTokenExpiry.ToString()??"");
+                HttpContext.Session.SetString("ResetTokenExpiry", account.ResetTokenExpiry.ToString() ?? "");
                 var email = new MimeMessage();
                 email.From.Add(new MailboxAddress("AdminDotnet", "admin@example.com"));
                 email.To.Add(MailboxAddress.Parse($"{account.Email}"));
@@ -75,7 +75,7 @@ namespace TranMinhKhoi_com_vn.Controllers
                     $"Vui lòng nhập mã OTP để đăng nhập vào hệ thống\n" +
                     $"Nếu bạn không yêu cầu đăng nhập, vui lòng bỏ qua email này\n" +
                     $"Trân trọng\n" +
-                    $"TranMinhKhoi.com.vn" 
+                    $"TranMinhKhoi.com.vn"
                 };
                 using var smtp = new SmtpClient();
                 smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
@@ -205,7 +205,7 @@ namespace TranMinhKhoi_com_vn.Controllers
                 _notyfService.Error("Mật khẩu không bé hơn 6 kí tự");
                 return View(account);
             }
-            if (account.Phone?.Length != 12)
+            if (account.Phone?.Length != 10)
             {
                 _notyfService.Error("Số điện thoại là 10 số");
                 return View(account);
@@ -219,7 +219,7 @@ namespace TranMinhKhoi_com_vn.Controllers
             account.Avartar = "UserDemo.jpg";
             account.Password = (account.Password)?.ToMD5();
             account.Status = 1;
-            account.Coin = 0;
+            account.Coin = 0; 
             account.RoleId = 2;
 
             _context.Update(account);
@@ -246,7 +246,7 @@ namespace TranMinhKhoi_com_vn.Controllers
             if (user != null)
             {
                 var random = new Random();
-                var token = random.Next(10000000, 99999999).ToString();
+                var token = random.Next(100000, 999999).ToString();
                 user.ResetToken = token;
                 user.ResetTokenExpiry = DateTime.UtcNow.AddHours(1);
                 user.Email = Email;
@@ -255,9 +255,9 @@ namespace TranMinhKhoi_com_vn.Controllers
                 HttpContext.Session.SetString("Email", user.Email);
                 HttpContext.Session.SetString("ResetTokenExpiry", user.ResetTokenExpiry.ToString() ?? "");
                 var email = new MimeMessage();
-                email.From.Add(new MailboxAddress("AdminDotnet", "admin@example.com"));
+                email.From.Add(new MailboxAddress("TranMinhKhoi.com.vn", "admin@example.com"));
                 email.To.Add(MailboxAddress.Parse($"{Email}"));
-                email.Subject = "Yêu cầu đặt lại mật khẩu";
+                email.Subject = "[TranMinhKhoi.com.vn] Yêu cầu đặt lại mật khẩu";
 
                 email.Body = new TextPart("plain")
                 {
@@ -271,7 +271,7 @@ namespace TranMinhKhoi_com_vn.Controllers
                     smtp.Send(email);
                     smtp.Disconnect(true);
                 }
-                catch (Exception )
+                catch (Exception)
                 {
                     _notyfService.Error("Không thể gửi email. Vui lòng thử lại sau.");
                     return View();
@@ -296,38 +296,35 @@ namespace TranMinhKhoi_com_vn.Controllers
         [HttpPost()]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var resetToken = HttpContext.Session.GetString("ResetToken");
-                var resetTokenExpiry = HttpContext.Session.GetString("ResetTokenExpiry");
-                var email = HttpContext.Session.GetString("Email");
+            var resetToken = HttpContext.Session.GetString("ResetToken");
+            var resetTokenExpiry = HttpContext.Session.GetString("ResetTokenExpiry");
+            var email = HttpContext.Session.GetString("Email");
 
-                if (!DateTime.TryParse(resetTokenExpiry, out var expiry) || expiry < DateTime.UtcNow)
+            if (!DateTime.TryParse(resetTokenExpiry, out var expiry) || expiry < DateTime.UtcNow)
+            {
+                _notyfService.Error("Token đã hết hạn. Vui lòng gửi lại yêu cầu đặt lại mật khẩu.");
+                return View(model);
+            }
+
+            var user = await _context.Accounts.FirstOrDefaultAsync(u => u.Email == email);
+            if (user != null && resetToken == model.Token)
+            {
+                if (model.Password != model.ConfirmPassword)
                 {
-                    _notyfService.Error("Token đã hết hạn. Vui lòng gửi lại yêu cầu đặt lại mật khẩu.");
+                    TempData["ResetPasswordErrorMessage"] = "Mật khẩu mới và xác nhận không khớp.";
                     return View(model);
                 }
 
-                var user = await _context.Accounts.FirstOrDefaultAsync(u => u.Email == email);
-                if (user != null && resetToken == model.Token)
-                {
-                    if (model.Password != model.ConfirmPassword)
-                    {
-                        TempData["ResetPasswordErrorMessage"] = "Mật khẩu mới và xác nhận không khớp.";
-                        return View(model);
-                    }
+                user.Password = model.Password ?? "".ToMD5();
+                user.ResetToken = null;
+                user.ResetTokenExpiry = null;
+                await _context.SaveChangesAsync();
 
-                    user.Password = model.Password ?? "".ToMD5();
-                    user.ResetToken = null;
-                    user.ResetTokenExpiry = null;
-                    await _context.SaveChangesAsync();
-
-                    _notyfService.Success("Đặt lại mật khẩu thành công.");
-                    return RedirectToAction("Index", "Home");
-                }
-
-                _notyfService.Error("Token không hợp lệ hoặc email không tồn tại.");
+                _notyfService.Success("Đặt lại mật khẩu thành công.");
+                return RedirectToAction("Login", "Account");
             }
+
+            _notyfService.Error("Token không hợp lệ hoặc email không tồn tại.");
 
             return View(model);
         }
