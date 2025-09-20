@@ -42,7 +42,7 @@ namespace TranMinhKhoi_com_vn.Controllers
                 _notyfService.Error("Thông tin đăng nhập không chính xác");
                 return RedirectToAction("Login", "Account");
             }
-            if (account?.RoleId == 1 || account?.RoleId == 2)
+            if (account?.RoleId == 1 )
             {
                 _notyfService.Error("Tài khoản của bạn là tài khoản Admin");
                 return RedirectToAction("Login", "Account");
@@ -56,7 +56,7 @@ namespace TranMinhKhoi_com_vn.Controllers
             {
 
                 var random = new Random();
-                var token = random.Next(10000000, 99999999).ToString();
+                var token = random.Next(100000, 999999).ToString();
                 account.ResetToken = token;
                 account.ResetTokenExpiry = DateTime.UtcNow.AddHours(7).AddMinutes(10);
                 await _context.SaveChangesAsync();
@@ -65,9 +65,9 @@ namespace TranMinhKhoi_com_vn.Controllers
                 HttpContext.Session.SetString("UserName", account.UserName ?? "");
                 HttpContext.Session.SetString("ResetTokenExpiry", account.ResetTokenExpiry.ToString() ?? "");
                 var email = new MimeMessage();
-                email.From.Add(new MailboxAddress("AdminDotnet", "admin@example.com"));
+                email.From.Add(new MailboxAddress("TranMinhKhoi.com.vn", "admin@example.com"));
                 email.To.Add(MailboxAddress.Parse($"{account.Email}"));
-                email.Subject = "Mã xác thực OTP";
+                email.Subject = "[TranMinhKhoi.com.vn] Mã xác thực OTP";
 
                 email.Body = new TextPart("plain")
                 {
@@ -257,11 +257,12 @@ namespace TranMinhKhoi_com_vn.Controllers
                 var email = new MimeMessage();
                 email.From.Add(new MailboxAddress("TranMinhKhoi.com.vn", "admin@example.com"));
                 email.To.Add(MailboxAddress.Parse($"{Email}"));
-                email.Subject = "[TranMinhKhoi.com.vn] Yêu cầu đặt lại mật khẩu";
+                email.Subject = $"[TranMinhKhoi.com.vn] Yêu cầu đặt lại mật khẩu User :{user.UserName}";
 
                 email.Body = new TextPart("plain")
                 {
-                    Text = $"Để đặt lại mật khẩu, vui lòng sử dụng token sau đây: {token} mã token có thời hạn là 10 phút"
+                    Text = $"Để đặt lại mật khẩu, User : {user.Email}" +
+                    $"Vui lòng sử dụng token sau đây: {token} mã token có thời hạn là 10 phút"
                 };
                 try
                 {
@@ -315,7 +316,7 @@ namespace TranMinhKhoi_com_vn.Controllers
                     return View(model);
                 }
 
-                user.Password = model.Password ?? "".ToMD5();
+                user.Password = model.Password.ToMD5();
                 user.ResetToken = null;
                 user.ResetTokenExpiry = null;
                 await _context.SaveChangesAsync();
@@ -327,6 +328,11 @@ namespace TranMinhKhoi_com_vn.Controllers
             _notyfService.Error("Token không hợp lệ hoặc email không tồn tại.");
 
             return View(model);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Policy()
+        {
+            return View(await _context.Blogs.FirstOrDefaultAsync(c => c.Type == "Privacy-Policy"));
         }
 
     }

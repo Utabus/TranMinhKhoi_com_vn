@@ -138,9 +138,20 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
             {
                 return RedirectToAction(nameof(IndexIELTS));
 
-            }  else if (blog?.Type == "SoftSkill")
+            } 
+            else if (blog?.Type == "SoftSkill")
             {
                 return RedirectToAction(nameof(IndexSoftSkill));
+
+            }
+            else if (blog?.Type == "Privacy-Policy")
+            {
+                return RedirectToAction(nameof(IndexPage));
+
+            }
+            else if (blog?.Type == "Profile")
+            {
+                return RedirectToAction(nameof(IndexPage));
 
             }
             else
@@ -223,6 +234,16 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
             else if (blog?.Type == "Competion")
             {
                 return RedirectToAction(nameof(IndexCompetion));
+
+            }
+            else if (blog?.Type == "Privacy-Policy")
+            {
+                return RedirectToAction(nameof(IndexPage));
+
+            }
+            else if (blog?.Type == "Profile")
+            {
+                return RedirectToAction(nameof(IndexPage));
 
             }
             else

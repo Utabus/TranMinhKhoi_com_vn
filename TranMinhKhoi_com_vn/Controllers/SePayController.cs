@@ -28,7 +28,13 @@ namespace TranMinhKhoi_com_vn.Controllers
         public async Task<IActionResult> ReceiveTransaction([FromBody] JsonElement json)
         {
             var transaction = JsonSerializer.Deserialize<SePayTransaction>(json.GetRawText());
-            var UserName = transaction.content?.Split(" ")[1];
+            var UserName = transaction.content?
+     .Split(" ")
+     .Skip(1)
+     .FirstOrDefault()?
+     .Split("-")
+     .FirstOrDefault();
+
             if (transaction == null || string.IsNullOrEmpty(transaction.gateway) || transaction.transferAmount <= 0)
             {
                 return BadRequest("Dữ liệu giao dịch không hợp lệ.");

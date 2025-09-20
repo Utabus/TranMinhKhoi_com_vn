@@ -246,6 +246,7 @@ namespace TranMinhKhoi_com_vn.Areas.Admin.Controllers
                 nhanvien.Status = account.Status;
                 nhanvien.UserName = account.UserName;
                 nhanvien.Major = account.Major;
+                nhanvien.Coin = account.Coin;
 
                 _notyfService.Success("Sửa thành công!");
                 await _context.SaveChangesAsync();
